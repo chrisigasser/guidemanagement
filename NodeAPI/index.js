@@ -3,7 +3,7 @@ var app = express();
 var MongoClient = require('mongodb').MongoClient;
 var SHA256 = require("crypto-js/sha256");
 require('./Routes')(app);
-require('./models/user');
+require('./models/User');
 require('./Routes')(app);
 mongoose = require('mongoose');
 
