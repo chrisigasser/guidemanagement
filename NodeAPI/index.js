@@ -4,19 +4,19 @@ var MongoClient = require('mongodb').MongoClient;
 var SHA256 = require("crypto-js/sha256");
 require('./Routes')(app);
 mongoose = require('mongoose');
- 
+
 var mongoUri = 'mongodb://localhost:27017/guidemanagement';
 mongoose.connect(mongoUri);
 var db = mongoose.connection;
 db.on('error', function () {
-  throw new Error('unable to connect to database at ' + mongoUri);
+	throw new Error('unable to connect to database at ' + mongoUri);
 });
 
 var app = express();
 
-app.configure(function(){
-  app.use(express.bodyParser());
-});
+/*app.configure(function () {
+	app.use(express.bodyParser());
+});*/
 
 require('./models/user');
 require('./routes')(app);
