@@ -1,10 +1,27 @@
 var express = require('express');
 var app = express();
 var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/guidemanagement";
 var SHA256 = require("crypto-js/sha256");
 require('./Routes')(app);
+mongoose = require('mongoose');
  
+var mongoUri = 'mongodb://localhost:27017/guidemanagement';
+mongoose.connect(mongoUri);
+var db = mongoose.connection;
+db.on('error', function () {
+  throw new Error('unable to connect to database at ' + mongoUri);
+});
+
+var app = express();
+
+app.configure(function(){
+  app.use(express.bodyParser());
+});
+
+require('./models/user');
+require('./routes')(app);
+
+app.listen(3000);
 //Test
 /*
 app.get('/users', function(req, res) {
@@ -24,7 +41,4 @@ app.get('/users', function(req, res) {
 	  });
 	});
 	
-	
 })*/
- 
-app.listen(3000)
