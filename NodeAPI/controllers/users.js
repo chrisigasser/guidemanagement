@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-User = mongoose.model('user');
+User = mongoose.model('User');
 
 exports.authenticate = function (req, res) {
   User.find({}, function (err, results) {
