@@ -16,9 +16,9 @@ db.on('error', function () {
 
 var app = express();
 
-/*app.configure(function () {
+app.configure(function () {
 	app.use(express.bodyParser());
-});*/
+});
 
 app.listen(3000);
 //Test
