@@ -6,4 +6,4 @@ var UserSchema = new Schema({
   pwd: String
 });
 
-mongoose.model('User', UserSchema);
+mongoose.model('user', UserSchema);
