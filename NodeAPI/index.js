@@ -19,7 +19,7 @@ var app = express();
 });*/
 
 require('./models/user');
-require('./routes')(app);
+require('./Routes')(app);
 
 app.listen(3000);
 //Test
