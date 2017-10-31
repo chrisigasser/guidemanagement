@@ -11,20 +11,20 @@ app.get('/users', function(req, res) {
 
 	var username = req.query.username;
 	var reqpwd = req.query.passwd;
-	var response = "FAILED";
 		
 	MongoClient.connect(url, function(err, db) {
 	  if (err) throw err;
 	  db.collection("users").findOne({}, {'username':username}, function(err, result) {
 		if (err) throw err;
 		if(reqpwd == SHA256(result.pwd))
-			response = "PASSED";
-		
+			res.write("PASSED");
+		else
+			res.write("FAILED");
 		db.close();
 	  });
 	});
 	
-	res.write(response);
+	
 })
  
 app.listen(3000)
