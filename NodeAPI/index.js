@@ -8,7 +8,7 @@ var SHA256 = require("crypto-js/sha256");
 //Test
  
 app.get('/users', function(req, res) {
-
+	console.log('new get request on /users');
 	var username = req.query.username;
 	var reqpwd = req.query.passwd;
 		
