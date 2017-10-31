@@ -3,7 +3,7 @@ var app = express();
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/guidemanagement";
 var SHA256 = require("crypto-js/sha256");
-require('./routes')(app);
+require('./Routes')(app);
  
 //Test
 /*
