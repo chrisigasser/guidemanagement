@@ -17,7 +17,7 @@ app.get('/users', function(req, res) {
 	  if (err) throw err;
 	  db.collection("users").findOne({}, {'username':username}, function(err, result) {
 		if (err) throw err;
-		if(rewpwd == SHA256(result.pwd))
+		if(reqpwd == SHA256(result.pwd))
 			response = "PASSED";
 		
 		db.close();
