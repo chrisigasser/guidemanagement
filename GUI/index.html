@@ -3,18 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <title>Login Form</title>
-  <script  src="js/index.js"></script>
+
   <link href="css/style.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script  src="js/index.js"></script>
  </head>
 
 <body>
-  <div class="login">
+  <div class="login" ng-app="myApp" ng-controller="myCtrl">
 	<h1>Login</h1>
-    <form >
-    	<input type="text" name="u"     id="txt_User"       placeholder="Username" required="required" />
-        <input type="password" name="p" id = "txt_Password" placeholder="Password" required="required" />
-        <button type="submit"		    id="btn_Login"      >Login</button>
-    </form>
+    <div>
+    	<input type="text" name="u"     id="txt_User"  ng-bind="txt_User"     placeholder="Username" required="required" />
+        <input type="password" name="p" id = "txt_Password" ng-bind="txt_Password" placeholder="Password" required="required" />
+        <button type="submit"		    id="btn_Login"      ng-click="checkLogin();" >Login</button>
+		<label id="lbl_status" ng-bind="auth_msg">&nbsp;</label>
+    </div>
 </div>
   
     
