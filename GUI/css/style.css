@@ -79,6 +79,7 @@ color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-ali
     margin-left: 5%;
     border-radius: 15px;
     height: 10rem;
+    text-align: center;
 }
 
 .field_description {
@@ -89,7 +90,7 @@ color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-ali
 
 .overview_legends {
     font-size: 4.5em;
-
+    text-align: left;
 }
 
 .station_option {
