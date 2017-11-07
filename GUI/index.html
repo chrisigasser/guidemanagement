@@ -11,12 +11,12 @@
  </head>
 
 <body>
-	<div id="mainDiv" ng-app="myApp" ng-controller="myCtrl">
+	<div id="mainDiv" ng-bind="contentDIV" ng-app="myApp" ng-controller="myCtrl">
 		<div class="login">
 			<h1>Login</h1>
 			<div>
-				<input type="text" name="u"     id="txt_User"  ng-bind="txt_User"     placeholder="Username" required="required" />
-				<input type="password" name="p" id = "txt_Password" ng-bind="txt_pwd" placeholder="Password" required="required" />
+				<input class="login_input" type="text" name="u"     id="txt_User"  ng-bind="txt_User"     placeholder="Username" required="required" />
+				<input class="login_input" type="password" name="p" id = "txt_Password" ng-bind="txt_pwd" placeholder="Password" required="required" />
 				<button type="submit"		    id="btn_Login"      ng-click="checkLogin();" >Login</button>
 				<label id="lbl_status" ng-bind="auth_msg">&nbsp;</label>
 			</div>
