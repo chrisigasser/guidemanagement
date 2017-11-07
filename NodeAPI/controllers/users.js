@@ -10,6 +10,6 @@ exports.authenticate = function (req, res) {
     /*results.forEach(function(element) {
       console.log('username:' + element.username);
     }, this);*/
-    return res.send(req);
+    return res.send('endlich');
   });
 };
