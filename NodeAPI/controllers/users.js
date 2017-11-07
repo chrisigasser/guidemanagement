@@ -6,7 +6,8 @@ var User = require('../models/user');
 
 exports.authenticate = function (req, res) {
   User.find({}, function (err, results) {
-    console.log(req.body.username + ';' + req.body.pwd);
+    //console.log(req.body.username + ';' + req.body.pwd);
+    console.log(req);
     /*results.forEach(function(element) {
       console.log('username:' + element.username);
     }, this);*/
