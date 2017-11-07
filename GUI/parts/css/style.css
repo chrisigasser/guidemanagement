@@ -18,6 +18,7 @@ body {
     margin-right: 5%;
     margin-left: 5%;
     border-radius: 15px;
+    height: 10rem;
 }
 
 .field_description {
@@ -48,11 +49,12 @@ select {
 }
 .description_small {
     width: 100%;
+    min-height: 20rem;
 }
 
 div {
-    margin-top: 8%;
-    margin-bottom: 8%;
+    margin-top: 10%;
+    margin-bottom: 10%;
 }
 
 .self_next {
