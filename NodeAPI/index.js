@@ -3,12 +3,12 @@ var app = express();
 var MongoClient = require('mongodb').MongoClient;
 var SHA256 = require("crypto-js/sha256");
 mongoose = require('mongoose');
+var mongoUri = 'mongodb://localhost:27017/guidemanagement';
+mongoose.connect(mongoUri);
 require('./Routes')(app);
 require('./models/user');
 
 
-var mongoUri = 'mongodb://localhost:27017/guidemanagement';
-mongoose.connect(mongoUri);
 var db = mongoose.connection;
 db.on('error', function () {
 	throw new Error('unable to connect to database at ' + mongoUri);
