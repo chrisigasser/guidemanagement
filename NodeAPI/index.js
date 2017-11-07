@@ -15,8 +15,5 @@ db.on('error', function () {
 	throw new Error('unable to connect to database at ' + mongoUri);
 });
 
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-  extended: true
-})); 
+app.use(bodyParser.json() );       // to support JSON-encoded bodies
 app.listen(3000);
