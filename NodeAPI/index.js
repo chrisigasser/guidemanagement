@@ -14,8 +14,6 @@ db.on('error', function () {
 	throw new Error('unable to connect to database at ' + mongoUri);
 });
 
-var app = express();
-
 app.configure(function () {
 	app.use(express.bodyParser());
 });
