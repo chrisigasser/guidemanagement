@@ -6,6 +6,9 @@ var User = require('../models/user');
 
 exports.authenticate = function (req, res) {
   User.find({}, function (err, results) {
+    results.forEach(function(element) {
+      console.log('username:' + element.username);
+    }, this);
     return res.send(results);
   });
 };
