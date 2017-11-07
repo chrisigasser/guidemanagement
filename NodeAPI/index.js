@@ -7,6 +7,7 @@ var mongoose = require('mongoose');
 mongoose.connect(mongoUri);
 require('./Routes')(app);
 require('./models/user');
+var bodyParser = require('body-parser');
 
 
 var db = mongoose.connection;
@@ -14,4 +15,8 @@ db.on('error', function () {
 	throw new Error('unable to connect to database at ' + mongoUri);
 });
 
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
 app.listen(3000);
