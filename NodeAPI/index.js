@@ -14,28 +14,4 @@ db.on('error', function () {
 	throw new Error('unable to connect to database at ' + mongoUri);
 });
 
-/*app.configure(function () {
-	app.use(express.bodyParser());
-});*/
-
 app.listen(3000);
-//Test
-/*
-app.get('/users', function(req, res) {
-	console.log('new get request on /users');
-	var username = req.query.username;
-	var reqpwd = req.query.passwd;
-		
-	MongoClient.connect(url, function(err, db) {
-	  if (err) throw err;
-	  db.collection("users").findOne({}, {'username':username}, function(err, result) {
-		if (err) throw err;
-		if(reqpwd == SHA256(result.pwd))
-			res.write("PASSED");
-		else
-			res.write("FAILED");
-		db.close();
-	  });
-	});
-	
-})*/
