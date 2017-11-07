@@ -20,11 +20,22 @@ app.controller('myCtrl', function($scope, $http, $timeout) {
 					}
 					else {
 						loadMainPage()
-						alert("open next");
 					}
 				},
 				function myError(response) {
 					$scope.auth_msg = "Error occured during contacting server; Code: " + response.status;
+				}
+			);
+	}
+	
+	function loadMainPage() {
+		$http.get("./parts/overview.html")
+			.then(
+				function mySuccess(response) {
+					document.getElementById('mainDiv').innerHTML = response.data;
+				},
+				function myError(response) {
+					alert("Error");
 				}
 			);
 	}
