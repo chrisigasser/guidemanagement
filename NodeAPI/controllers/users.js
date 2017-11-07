@@ -1,5 +1,4 @@
-var mongoose = require('mongoose'),
-//User = mongoose.model('User');
+User = mongoose.model('User');
 
 exports.authenticate = function (req, res) {
   User.find({}, function (err, results) {
