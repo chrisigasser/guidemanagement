@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Login Form</title>
+
+  <link href="css/style.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script type="text/javascript" src="http://cryptojs.altervista.org/api/functions_cryptography.js"></script> 
+  <script  src="js/index.js"></script>
+ </head>
+
+<body>
+	<div id="mainDiv" ng-app="myApp" ng-controller="myCtrl">
+		<div class="login">
+			<h1>Login</h1>
+			<div>
+				<input class="login_input" type="text" name="u"     id="txt_User"  ng-bind="txt_User"     placeholder="Username" required="required" />
+				<input class="login_input" type="password" name="p" id = "txt_Password" ng-bind="txt_pwd" placeholder="Password" required="required" />
+				<button type="submit"		    id="btn_Login"      ng-click="checkLogin();" >Login</button>
+				<label id="lbl_status" ng-bind="auth_msg">&nbsp;</label>
+			</div>
+		</div>
+	</div>
+  
+    
+
+</body>
+</html>
