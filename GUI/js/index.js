@@ -1,5 +1,5 @@
 var app = angular.module('myApp', []);
-var baseURL = "http://192.168.234.134:3000";
+var baseURL = "http://192.168.191.171:3000";
 
 var un;
 var hPW;
@@ -10,12 +10,13 @@ app.controller('myCtrl', function($scope, $http, $timeout) {
 	
 	$scope.checkLogin = function() {
 		var c = new Crypt();
-		un = $scope.txt_User;
-		hPW = c.HASH.sha256($scope.txt_pwd);
-		var dataObj = {credentials: {username: un, pwd: hPW }};
+		un = document.getElementById('txt_User').value;
+		hPW = c.HASH.sha256(document.getElementById('txt_Password').value);
+		//hPW = document.getElementById('txt_Password').value;
+		var dataObj = {"credentials": {"username": un, "pwd": hPW.toString() }};
 		
 		
-		$http.post(baseURL+"/checkAuth", dataObj)
+		$http.post(baseURL+"/checkAuthentification", dataObj)
 			.then(
 				function mySuccess(response) {
 					if(response.data != "PASSED") {
@@ -46,7 +47,7 @@ app.controller('myCtrl', function($scope, $http, $timeout) {
 	}
 	
 	function loadStations() {
-		var dataObj = {credentials: {username: un, pwd: hPW }};
+		var dataObj = {"credentials": {"username": un, "pwd": hPW.toString() }};
 		$http.post(baseURL+"/getStations", dataObj)
 			.then(
 				function mySuccess(response) {
