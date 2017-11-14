@@ -1,4 +1,10 @@
+#mainDiv {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 
+    color: white;
+}
 
 html {
 	width: 100%; height:100%; overflow:hidden; 
@@ -13,13 +19,14 @@ body {
 .login { 
 	position: absolute;
 	font-size: 3em;
-	top: 25%;
+	top: 30%;
 	left: 15%;
 	width:70%;
 	height:50%;
 }
 .login h1 { 
-color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; 
+color: #fff; text-shadow: 0px 0px 26px rgba(237, 185, 255, 0.72); letter-spacing:1px; text-align:center; 
+
 }
 
 #btn_Login{
@@ -30,8 +37,15 @@ color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-ali
     margin-top: 15%;
 }
 
+#lbl_status{
+	color: white;
+    margin-left: 35%;
+	display: inline-block;
+    margin-top: 7%;
+	font-color: red;
+}
 
-input { 
+.login_input  { 
 	height: 40%;
 	width: 100%; 
 	margin-bottom: 10px; 
@@ -51,4 +65,78 @@ input {
 	-ms-transition: box-shadow .5s ease;
 	transition: box-shadow .5s ease;
 }
-input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgba(255,255,255,0.2); }
+.login_input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgba(255,255,255,0.2); }
+
+
+
+
+
+
+
+
+
+.field {
+    margin-right: 5%;
+    margin-left: 5%;
+    border-radius: 15px;
+    height: 10rem;
+    text-align: center;
+}
+
+.field_description {
+    margin-right: 5%;
+    margin-left: 5%;
+    border-radius: 15px;
+}
+
+.overview_legends {
+    font-size: 4.5em;
+    text-align: left;
+}
+
+.station_option {
+    font-size: 0.5em;
+}
+
+.station_select {
+    font-size: 3em;
+    border-radius: 7px;
+    width: 95%;
+}
+
+.descript {
+    margin-left: 5%;
+    font-size: 3em;
+    color: #b3a0ff;
+}
+.description_small {
+    width: 90%;
+	padding: 5%;
+    min-height: 20rem;
+    font-size: 3.5em;
+}
+
+.overview_div {
+    margin-top: 10%;
+    margin-bottom: 10%;
+}
+
+.self_next {
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-bottom: 3%;
+}
+
+#finishedStation_btn {
+    font-size: 4em;
+    width: 95%;
+    border-radius: 7px;
+    margin-top: 3%;
+}
+.ueberschrift {
+    font-size: 6em;
+    margin-top: 15%;
+    text-align: center;
+    margin-bottom: 16%;
+    text-shadow: 0px 0px 26px rgba(237, 185, 255, 0.72);
+}
