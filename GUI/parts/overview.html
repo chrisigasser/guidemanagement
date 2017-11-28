@@ -5,20 +5,21 @@
 		<div class="div_Fuehrung ">
 		 <fieldset class="field">
                 <legend class="overview_legends">Führung</legend>
-                <label class="descript">F01</label>
+                <label class="descript"></label>
             </fieldset>
 		</div>
 		
 		
 		
 		 <div class="overview_div self_next">
-         <button id="startFuehrung_btn">Führung starten</button>
+         <button id="startFuehrung_btn" ng-click="startRoute();">Führung starten</button>
         </div>
 	
+		<div ng-bind="station_view" class="invisible">
         <div class="current_station overview_div">
             <fieldset class="field">
                 <legend class="overview_legends">Aktuelle Station</legend>
-                <label class="descript">Diplomarbeiten (2015)</label>
+                <label class="descript" ng-bind="akt_title"></label>
             </fieldset>
         </div>
 
@@ -26,7 +27,7 @@
         <div class="current_description overview_div">
             <fieldset class="field_description">
                 <legend class="overview_legends">Beschreibung</legend>
-                <textarea class="description_small">In diesem Raum werden die Diplomarbeiten vorgestellt. Jeder Schüler muss eine Diplomarbeit absolvieren. Bla bla...</textarea>
+                <textarea class="description_small" ng-bind="akt_desc"></textarea>
             </fieldset>
         </div>
 
@@ -38,19 +39,14 @@
         </div>
 		
         <div class="self_next overview_div">
-		<select name="Stationen" class="station_select">
-		    <option class="station_option">[Automatic]</option>
-            <option class="station_option">Station A</option>
-            <option class="station_option">Station B</option>
-            <option class="station_option">Station C</option>
-            <option class="station_option">Station D</option>
-            <option class="station_option">Station E</option>
+		<select name="Stationen" class="station_select" selected-index="0" ng-model="selectedStation" ng-options="x.name for x in allStations">
+		    
         </select>
 
-            <button id="finishedStation_btn">Fertig mit aktueller Station</button>
+            <button id="finishedStation_btn" ng-click="update();">Fertig mit aktueller Station</button>
 			<button id="finishedFuehrung_btn">Fertig mit aktueller Führung</button>
         </div>
-
+		</div>
     
 	
 		

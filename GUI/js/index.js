@@ -82,6 +82,12 @@ app.controller('overviewController', function($scope, $http, $timeout, $location
 	        removeStation(station);
 	    }
 	}
+
+	$scope.startRoute = function () {
+	    //TODO: send to server
+
+
+	}
 	
 	function setAttributesOfStation(station) {
 		$scope.akt_title = station.name;
