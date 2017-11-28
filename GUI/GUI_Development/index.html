@@ -15,7 +15,21 @@
 		
 		
 		
-		        <h1 class="ueberschrift">Guidemanagement</h1>
+		<h1 class="ueberschrift">Guidemanagement</h1>
+		
+		<div class="div_Fuehrung ">
+		 <fieldset class="field">
+                <legend class="overview_legends">Führung</legend>
+                <label class="descript">F01</label>
+            </fieldset>
+		</div>
+		
+		
+		
+		 <div class="overview_div self_next">
+         <button id="startFuehrung_btn">Führung starten</button>
+        </div>
+	
         <div class="current_station overview_div">
             <fieldset class="field">
                 <legend class="overview_legends">Aktuelle Station</legend>
@@ -23,6 +37,7 @@
             </fieldset>
         </div>
 
+		
         <div class="current_description overview_div">
             <fieldset class="field_description">
                 <legend class="overview_legends">Beschreibung</legend>
@@ -30,8 +45,16 @@
             </fieldset>
         </div>
 
+		 <div class="next overview_div">
+            <fieldset class="field">
+                <legend class="overview_legends">Nächste Station</legend>
+                <label class="descript">Dies ist die nächste Station</label>
+            </fieldset>
+        </div>
+		
         <div class="self_next overview_div">
 		<select name="Stationen" class="station_select">
+		    <option class="station_option">[Automatic]</option>
             <option class="station_option">Station A</option>
             <option class="station_option">Station B</option>
             <option class="station_option">Station C</option>
@@ -40,15 +63,11 @@
         </select>
 
             <button id="finishedStation_btn">Fertig mit aktueller Station</button>
+			<button id="finishedFuehrung_btn">Fertig mit aktueller Führung</button>
         </div>
 
-       <!-- <div class="next overview_div">
-            <fieldset class="field">
-                <legend class="overview_legends">Nächste Station</legend>
-                <label class="descript">Dies ist die nächste Station</label>
-            </fieldset>
-        </div>
-		-->
+    
+	
 		
 		
 		
