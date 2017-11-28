@@ -1,5 +1,5 @@
 var app = angular.module('myApp', ["ngRoute"]);
-var baseURL = "http://localhost";
+var baseURL = "http://192.168.194.156:3000";
 
 var un;
 var hPW;
@@ -57,11 +57,13 @@ app.controller('overviewController', function($scope, $http, $timeout, $location
 	$http.post(baseURL+"/getStations", dataObj)
 		.then(
 			function mySuccess(response) {
-				var allStations = response.data;
+			    var allStations = response.data;
 				$scope.allStations = allStations;
+
+                /*
 				$scope.selectedStation = allStations[1];
 				setAttributesOfStation(allStations[0]);
-				removeStation(allStations[0]);
+				removeStation(allStations[0]);*/
 			},
 			function myError(response) {
 				alert("Error retrieving Stations");
@@ -71,13 +73,14 @@ app.controller('overviewController', function($scope, $http, $timeout, $location
 	}
 	
 	$scope.update = function () {
-		var station = $scope.selectedStation;
-		if(station == undefined)
-			alert("You are done!");
-		else {
-			setAttributesOfStation(station);
-			removeStation(station);
-		}
+	    var station = $scope.selectedStation;
+	    if (station.name == "next = generated") {
+	        alert("hole generierte station");
+	    }
+	    else {
+	        setAttributesOfStation(station);
+	        removeStation(station);
+	    }
 	}
 	
 	function setAttributesOfStation(station) {
