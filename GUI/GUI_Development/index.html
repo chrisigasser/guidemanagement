@@ -4,14 +4,87 @@
   <meta charset="UTF-8">
   <title>Login Form</title>
 
-  <link href="../css/style.css" rel="stylesheet" />
+  <!-- <link href="../css/style.css" rel="stylesheet" /> -->
+  
+ <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
   <script type="text/javascript" src="http://cryptojs.altervista.org/api/functions_cryptography.js"></script> 
- </head>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
 
 <body>
 	<div id="mainDiv" ng-app="myApp" ng-controller="myCtrl">
 		<!-- Paste code of part here -->
+		
+				
+		
+		<h1 class="">Guidemanagement</h1>
+		
+		<div class="card">
+		  <div class="card-header">
+		  <h3>Führung</h3>
+		  </div>
+		  
+		  <div class="card-body">
+		  <label ng-bind="akt_fuehrung">F001</label>
+		  </div> 
+		  
+		   <div class="card-footer">
+		    <button id="startFuehrung_btn" ng-click="startRoute();">Führung starten</button>
+		   </div> 
+		</div>
+	
+		<div ng-bind="station_view" class="card">
+		   <div class="card-header">
+		    <h3>Aktuelle Station</h3>
+		   </div>
+            <div class="card-body">
+                
+                <label class="" ng-bind="akt_title">Diplomarbeiten (215)</label>
+            </div>
+           
+		</div>
+     
+
+		
+        <div class="">
+            <fieldset class="">
+                <legend class="">Beschreibung</legend>
+                <textarea class="" ng-bind="akt_desc"></textarea>
+            </fieldset>
+        </div>
+
+		 <div class="">
+            <fieldset class="">
+                <legend class="">Nächste Station</legend>
+                <label class="">Dies ist die nächste Station</label>
+            </fieldset>
+        </div>
+		
+        <div class="card">
+		
+		
+		<select name="Stationen" class="" selected-index="0" ng-model="selectedStation" ng-options="x.name for x in allStations">
+		    <option>Station 1</option>
+			<option>Station 2</option>
+			<option>Station 3</option>
+			<option>Station 4</option>
+        </select>
+
+            <button id="finishedStation_btn" class="" ng-click="update();">Fertig mit aktueller Station</button>
+			<button id="finishedFuehrung_btn" class="" >Fertig mit aktueller Führung</button>
+        </div>
+		
+    
+	
 		
 
 		
