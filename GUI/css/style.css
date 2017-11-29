@@ -21,12 +21,12 @@ h3 {
 
 #finishedStation_btn{
 	 width: 97% !important;
-	 margin-top: 2%;
+	 margin-top: 5%;
 }
 
 #selectStation {
     width: 97% !important;
-
+    margin-top: 1% !important;
 }
 
 #finishedFuehrung_btn{
@@ -73,7 +73,6 @@ body {
 .nav-link {
     display: block;
     margin-bottom: 1% !important;
-    padding-top: 5% !important;
     padding-bottom: 0px !important;
 }
 label {
