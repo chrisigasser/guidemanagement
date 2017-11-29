@@ -5,17 +5,17 @@
 		<div class="div_Fuehrung ">
 		 <fieldset class="field">
                 <legend class="overview_legends">Führung</legend>
-                <label class="descript"></label>
+                <label class="descript" ng-bind="route_name"></label>
             </fieldset>
 		</div>
 		
 		
 		
 		 <div class="overview_div self_next">
-         <button id="startFuehrung_btn" ng-click="startRoute();">Führung starten</button>
+         <button id="startFuehrung_btn" ng-bind="btnRouteStartStop" ng-disabled="loggedIn==false" ng-click="startRoute();"></button>
         </div>
 	
-		<div ng-bind="station_view" class="invisible">
+		<div ng-style="vis_station_view">
         <div class="current_station overview_div">
             <fieldset class="field">
                 <legend class="overview_legends">Aktuelle Station</legend>
@@ -34,17 +34,16 @@
 		 <div class="next overview_div">
             <fieldset class="field">
                 <legend class="overview_legends">Nächste Station</legend>
-                <label class="descript">Dies ist die nächste Station</label>
+                <label class="descript" ng-bind="nextStation_name"></label>
             </fieldset>
         </div>
 		
         <div class="self_next overview_div">
-		<select name="Stationen" class="station_select" selected-index="0" ng-model="selectedStation" ng-options="x.name for x in allStations">
+		<select name="Stationen" class="station_select" selected-index="0" ng-change="selectedStationChanged()" ng-model="selectedStation" ng-options="x.name for x in allStations">
 		    
         </select>
 
-            <button id="finishedStation_btn" ng-click="update();">Fertig mit aktueller Station</button>
-			<button id="finishedFuehrung_btn">Fertig mit aktueller Führung</button>
+            <button id="finishedStation_btn" ng-bind="btnStationStartStop" ng-click="update();"></button>
         </div>
 		</div>
     
