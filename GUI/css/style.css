@@ -1,9 +1,12 @@
+textarea {
+resize: none !important; 
+}
 
 .card-body {
     -ms-flex: 1 1 auto !important;
     flex: 1 1 auto !important;
-    margin-left: 6% !important; 
-	padding: 0rem !important;
+    margin-left: 6% !important;
+    padding: 0rem !important;
 }
 
 .card-header {
@@ -14,8 +17,6 @@ h3 {
     margin-left: 1% !important;
     font-size: 1.75rem !important;
 }
-
-
 
 #finishedStation_btn{
 	 width: 97% !important;
@@ -35,3 +36,25 @@ h3 {
 #startFuehrung_btn {
     width: 97% !important;
 }
+
+.form-signin {
+   margin :10% !important;
+}
+
+#btn_Login {
+margin-top : 10% !important;
+}
+
+.form-signin-heading {
+    margin-left: 36% !important;
+}
+
+.login {
+    margin-top: 20% !important;
+}
+
+#inputEmail{
+    margin-bottom: 3% !important;
+}
+
+
