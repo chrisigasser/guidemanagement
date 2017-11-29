@@ -38,7 +38,7 @@ h3 {
 }
 
 .form-signin {
-   margin :10% !important;
+    margin: 10% !important;
 }
 
 #btn_Login {
@@ -57,4 +57,8 @@ margin-top : 10% !important;
     margin-bottom: 3% !important;
 }
 
+h1 {
+    font-size: 2rem !important;
+    margin-left: 7% !important;
+}
 

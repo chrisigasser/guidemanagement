@@ -1,9 +1,10 @@
-		<div class="login">
-			<h1>Login</h1>
-			<div>
-				<input class="login_input" type="text"  ng-model="txt_user"   placeholder="Username" required="required" />
-				<input class="login_input" type="password" ng-model="txt_pwd" placeholder="Password" required="required" />
-				<button type="submit"		    id="btn_Login"      ng-click="checkLogin();" >Login</button>
-				<label id="lbl_status" ng-bind="auth_msg">&nbsp;</label>
-			</div>
+    <div class="login">
+                <div class="form-signin">
+                    <h2 class="form-signin-heading">Login</h2>
+                    <label for="inputEmail" class="sr-only">Username</label>
+                    <input type="email" id="inputEmail" class="form-control" placeholder="Username" required autofocus>
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <button class="btn btn-lg btn-primary btn-block" id="btn_Login" type="submit">Login</button>
+                </div>
 		</div>
