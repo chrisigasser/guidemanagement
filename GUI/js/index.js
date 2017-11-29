@@ -204,7 +204,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	        var sendObject = cloneCredentialsObject();
 	        sendObject.end = seconds;
 	        sendObject.routenID = $scope.route_name;
-	        sendObject.stationName = stationName;
+	        sendObject.stationName = $scope.akt_title;
 
 	        $http.post(baseURL + "/endStation", sendObject)
             .then(
@@ -232,7 +232,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	    if (!started) {
             var sendObject = cloneCredentialsObject();
             sendObject.starttime = seconds;
-            
+            loadStations();
             $http.post(baseURL + "/newRoute", sendObject)
 		    .then(
 			    function mySuccess(response) {
