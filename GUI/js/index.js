@@ -13,7 +13,7 @@ app.config(function($routeProvider) {
     .when("/overview", {
         templateUrl : "./parts/overview.html",
 		controller : "overviewController"
-    })
+	})
 });
 
 
