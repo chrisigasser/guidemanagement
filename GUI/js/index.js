@@ -119,7 +119,6 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 
     function loggedInSucess() {
         $scope.loggedIn = true;
-        loadStations();
         checkForRunningRoute();
     }
 
@@ -129,8 +128,12 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
             $scope.route_name = runningRoute;
             $scope.vis_station_view = { 'visibility': 'visible' };
             $scope.btnRouteStartStop = "Fuehrung beenden";
-            started = true;
-        }
+			started = true;
+			loadStations(runningRoute);
+		}
+		else {
+			loadStations();
+		}
     }
 
     function checkForRunningStation() {
@@ -142,8 +145,10 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
         }
     }
 
-	function loadStations() {
-	    $http.post(baseURL+"/getStations", credentialObject)
+	function loadStations(rRoute) {
+		var credObject = cloneCredentialsObject();
+		credObject.runningRoute = rRoute;
+	    $http.post(baseURL+"/getStations", credObject)
 		    .then(
 			    function mySuccess(response) {
 			        var allStations = response.data;
