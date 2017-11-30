@@ -1,4 +1,4 @@
+mongo guidemanagement .\mongoSetup.js
 
-
-Write-Host "Press any key to finish...";
+Write-Host "`nPress any key to finish...";
 $x = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
