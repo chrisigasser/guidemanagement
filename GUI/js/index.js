@@ -93,7 +93,9 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
     $scope.vis_station_view = { 'visibility': 'hidden' };
     $scope.btnRouteStartStop = "Fuehrung starten";
     $scope.btnStationStartStop = "Mit Station beginnen";
-    $scope.loggedIn = false;
+	$scope.loggedIn = false;
+	$scope.generated = "loading";
+	$scope.nextStation_name = $scope.generated;
     
     var started = false;
     var stationStarted = false;
@@ -152,8 +154,8 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 		    .then(
 			    function mySuccess(response) {
 			        var allStations = response.data;
-			        $scope.allStations = allStations;
-			        $scope.selectedStation = $scope.allStations.find((e) => { return e.name == nameOfStationWhichIsUsedForGenerateStation });
+					$scope.allStations = allStations;
+					setStandartSelectionAndGetCalculatedStation()
 			        checkForRunningStation();
 			    },
 			    function myError(response) {
@@ -166,7 +168,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	$scope.selectedStationChanged = function () {
 	    var station = $scope.selectedStation;
 	    if (station.name == nameOfStationWhichIsUsedForGenerateStation) {
-	        alert("get generated station");
+			$scope.nextStation_name = $scope.generated;
 	    }
 	    else {
 	        $scope.nextStation_name = station.name;
@@ -190,7 +192,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 			            $cookies.put("runningStation", stationName);
 			            setAttributesOfStation(stationName);
 			            removeStation(stationName);
-			            $scope.selectedStation = $scope.allStations.find((e) => { return e.name == nameOfStationWhichIsUsedForGenerateStation })
+			            setStandartSelectionAndGetCalculatedStation();
 			            $scope.nextStation_name = "";
 			            $scope.btnStationStartStop = "Station beenden";
 			        }
@@ -230,6 +232,34 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
             );
 	        stationStarted = false;
 	    }
+	}
+
+	function setStandartSelectionAndGetCalculatedStation() {
+		$scope.selectedStation = $scope.allStations.find((e) => { return e.name == nameOfStationWhichIsUsedForGenerateStation });
+		//loadNextGeneratedStation();
+		//TODO GET ASYNC
+	}
+
+	function loadNextGeneratedStation() {
+		//TODO not yet implemented in backend
+		var sendObject = cloneCredentialsObject();
+		sendObject.routeID = $scope.route_name;
+		$http.post(baseURL + "/getStation", sendObject)
+		.then(
+			function mySuccess(response) {
+				$scope.generated = response.data;
+				if($scope.selectedStation.name == nameOfStationWhichIsUsedForGenerateStation) {
+					$scope.nextStation_name = $scope.generated;
+				}
+				else {
+					console.log("Generated Station arrived");
+				}
+			},
+			function myError(response) {
+				alert("Error getting generated Route");
+				console.log(response);
+			}
+		);
 	}
 
 	$scope.startRoute = function () {
