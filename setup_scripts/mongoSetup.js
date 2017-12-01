@@ -16,3 +16,28 @@ db.users.insert([
 ]);
 db.stations.drop();
 db.createCollection("stations");
+db.stations.insert([
+    {
+        "name" : "next = generated",
+        "desc" : "",
+        "visited" : []
+    },
+    {
+        "name" : "Arduino",
+        "desc" : "Some fancy Microcontrollers",
+        "visited" : []
+    },
+    {
+        "name" : "Sharepoint",
+        "desc" : "DO NOT VISIT!!",
+        "visited" : []
+    },
+    {
+        "name" : "Diplomarbeiten",
+        "desc" : "Diplomarbeiten ansehen",
+        "visited" : []
+    },
+
+]);
+db.routen.drop();
+db.createCollection("routen");
