@@ -162,8 +162,6 @@ app.post('/endRoute', function (req, res) {
         console.log('oh no exception');
         res.send('-1');
     }
-
-<<<<<<< HEAD
 });
 
 app.post('/startStation', function (req, res) {
@@ -233,10 +231,4 @@ app.post('/endStation', function (req, res) {
     }
 });
 app.listen(3000);
-=======
-app.listen(3000);
 console.log("Server up and running on port 3000");
->>>>>>> 7cf718c85ec9dbac59630f16568eb2d0586758fc
-app.listen(3000);
-console.log("Server up and running on port 3000");
->>>>>>> 7cf718c85ec9dbac59630f16568eb2d0586758fc
