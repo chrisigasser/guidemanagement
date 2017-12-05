@@ -1,84 +1,119 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <title>Login Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
 
-    <link href="../css/style.css" rel="stylesheet" />
-
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
-
-    <!-- Popper JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <script type="text/javascript" src="http://cryptojs.altervista.org/api/functions_cryptography.js"></script>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="mobile-web-app-capable" content="yes">
+  <!-- Angular Material Library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+    <!-- <link rel="stylesheet" src="angular.css"> -->
 </head>
+<body ng-app="myApp" ng-cloak>
+  <!--
+    Your HTML content here
+  -->  
+  
+  <!-- Angular Material requires Angular.js Libraries -->
+ 
+  
+  <!-- Your application bootstrap  -->
+  <script type="text/javascript"> 
+var app = angular.module('myApp', ['ngMaterial']);
+app.controller('MyController', function($scope, $mdSidenav) {
+    $scope.openLeftMenu = function() {
+    $mdSidenav('left').toggle();
+  };
+});
 
-<body class="mb-2 bg-light text-dark">
-    <div id="mainDiv" ng-app="myApp" ng-controller="myCtrl">
-        <!-- Paste code of part here -->
+app.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
+  $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
+  $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
+      $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
+      $mdThemingProvider.theme('def').backgroundPalette('grey');
+      });
 
-     
+  </script>
+  
+	<div layout="row" ng-controller="MyController">
+	
+  <md-sidenav md-component-id="left" class="md-sidenav-left">
+   <md-card md-theme="{{'dark-purple'}}" md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Führung</span>
+            <span class="md-subhead">F001</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button>Start</md-button>
+        </md-card-actions>
+      </md-card>
+	<md-button id="btn_logout">Ausloggen</md-button>
+	
+  </md-sidenav>
 
-		  <h1 class="">Guidemanagement</h1>
+  <md-content>
+    <md-button class="md-icon-button md-primary"  ng-click="openLeftMenu()">
+        <img style="margin-left:3px; height:25px; width:25px; " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAI8AAACPCAYAAADDY4iTAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAENSURBVHhe7dyxDcJAEERR10NKD3RAB75zShkEFIKohYiGwEKX2LLQeTKk96QfbD7xDgAAAAAAAAAAAAAA8BdqrWept1LKqU3nO5631Ns8nlebjvFoX8ajOONRnPEozngUZzyKMx7FGY/ijEdxi/HMx1XqbR7QpU0HAAAAAAAAAAAAAAAAAAAAAADYsv78JP2qeCunNONRnPEozngUZzyKMx7FGY/ijEdxxqO49XieUm/zeO5tOgAAAAAAAAAAAAAAAAAAAAAAwJZa60PqrZRya9PxVk778pNQccajOONRnPEozngUZzyKMx7FGY/ijEdxi/GM43iUepum6dCmAwAAAAAAAAAAAAAAAGwZhg9Sftt74YmWFwAAAABJRU5ErkJggg==">
+	</md-button>
 
-        <div class="card">
-            <div class="card-header">
-                <h3>Führung</h3>
-            </div>
+	
+	 <md-content class="md-padding" layout-xs="column" layout="row">
+    <div flex-xs="" flex-gt-xs="50" layout="column">
+      <md-card md-theme="{{'dark-blue'}}" md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Aktuelle Station</span>
+            <span class="md-subhead">Diplomarbeiten (215)</span>
+          </md-card-title-text>
+        </md-card-title>
+		
+		<md-card-content>
+		<h3>Beschreibung:</h3> <label>Diese Station ist blabla und viele coole Sharepoint Sachen, bla bla...</label>
+        </md-card-content>
+      </md-card>
+	  
+	   <md-card md-theme="{{'dark-orange'}}" md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline"><label>Nächste Station</label>
+                <md-button style="margin: auto; padding-top: 6px;" class="md-icon-button md-primary" ng-click="">
+                    <img style="margin-left:3px; height:25px; width:25px; " src="data:image/png;base64,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">
+                </md-button>
 
-            <div class="card-body">
-                <label ng-bind="akt_fuehrung">F001</label>
-            </div>
-
-            <div class="card-footer">
-                <button id="startFuehrung_btn" class="btn btn-info btn-sm" ng-click="startRoute();">Führung starten</button>
-            </div>
-        </div>
-
-        <div id="bigDiv">
-            <div ng-bind="station_view" class="card">
-                <div class="card-header">
-                    <h3>Aktuelle Station</h3>
-                </div>
-                <div class="card-body">
-
-                    <label class="" ng-bind="akt_title">Diplomarbeiten (215)</label>
-                </div>
-                <div class="card-footer">
-                    <label>Beschreibung:</label>
-                    <textarea class="form-control" disabled rows="4" ng-bind="akt_desc">laskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflak</textarea>
-                </div>
-            </div>
-
-
-            <div class="card">
-                <div class="card-header">
-                    <h3>Nächste Station</h3>
-                </div>
-                <div class="card-body">
-                    <label>Nächste Station wird hier angezeigt.</label>
-                </div>
-                <div class="card-footer">
-                    <select name="Stationen" id="selectStation" selected-index="0" ng-model="selectedStation" ng-options="x.name for x in allStations">
-                        <option>Station 1 asjkdfbsadkfjhasdkhjfsadsdfsdfsdfsdfsfkjsdaf</option>
-                        <option>Station 2</option>
-                        <option>Station 3</option>
-                        <option>Station 4</option>
-                    </select>
-                    <button id="finishedStation_btn" class="btn btn-success btn-sm" ng-click="update();">Fertig mit aktueller Station</button>
-                </div>
-            </div>
-            <a class="nav-link small" href="#">Log out</a>
-        </div>    
+              </span>
+            <span class="md-subhead"><label>Programmierwerkstatt (217)</label>
+               
+              </span>
+          </md-card-title-text>
+  
+        </md-card-title>
+           <md-card-content>
+               <md-select ng-model="">
+                     <md-option>Station 1</md-option>
+                     <md-option>Station 2</md-option>
+                     <md-option>Station 3</md-option>
+                     <md-option>Station 4</md-option>
+                 </md-select>
+                
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button>Fertig mit aktueller Station</md-button>
+        </md-card-actions>
+      </md-card>
     </div>
+  </md-content>
+	
+  </md-content>
+</div>
 
+
+  
 </body>
 </html>

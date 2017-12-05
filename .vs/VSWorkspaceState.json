@@ -3,8 +3,9 @@
     "",
     "\\GUI",
     "\\GUI\\css",
-    "\\GUI\\GUI_Development"
+    "\\GUI\\GUI_Development",
+    "\\GUI\\res"
   ],
-  "SelectedNode": "\\GUI\\GUI_Development\\index.html",
+  "SelectedNode": "\\GUI\\GUI_Development\\login.html",
   "PreviewInSolutionExplorer": false
 }
