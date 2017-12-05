@@ -39,7 +39,7 @@
         </div>
 		
         <div class="self_next overview_div">
-		<select name="Stationen" class="station_select" selected-index="0" ng-change="selectedStationChanged()" ng-model="selectedStation" ng-options="x.name for x in allStations">
+		<select name="Stationen" class="station_select" ng-style="vis_nextStation" selected-index="0" ng-change="selectedStationChanged()" ng-model="selectedStation" ng-options="x.name for x in allStations">
 		    
         </select>
 

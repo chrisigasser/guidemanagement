@@ -1,5 +1,5 @@
 var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
-var baseURL = "http://192.168.137.148:3000";
+var baseURL = "http://192.168.137.217:3000";
 var nameOfStationWhichIsUsedForGenerateStation = "next = generated";
 
 var credentialObject = null;
@@ -63,6 +63,7 @@ app.controller('loginController', ['LoginCookieService',"$scope", "$http", "$tim
 		var un = $scope.txt_user
 		var hPW = c.HASH.sha256($scope.txt_pwd).toString();
 		credentialObject = {"credentials": {"username": un, "pwd": hPW }};
+		console.log(credentialObject);
 		
 		
 	    $http.post(baseURL + "/checkAuthentification", credentialObject)
@@ -90,7 +91,8 @@ app.controller('loginController', ['LoginCookieService',"$scope", "$http", "$tim
 
 
 app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$timeout", "$location", "$cookies", function (LoginCookieService, $scope, $http, $timeout, $location, $cookies) {
-    $scope.vis_station_view = { 'visibility': 'hidden' };
+	$scope.vis_station_view = { 'visibility': 'hidden' };
+	$scope.vis_nextStation = {'visibility' : 'hidden'};
     $scope.btnRouteStartStop = "Fuehrung starten";
     $scope.btnStationStartStop = "Mit Station beginnen";
 	$scope.loggedIn = false;
@@ -128,7 +130,8 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
         var runningRoute = $cookies.get("runningRoute");
         if (runningRoute != undefined) {
             $scope.route_name = runningRoute;
-            $scope.vis_station_view = { 'visibility': 'visible' };
+			$scope.vis_station_view = { 'visibility': 'visible' };
+			$scope.vis_nextStation = {'visibility' : 'visible'};
             $scope.btnRouteStartStop = "Fuehrung beenden";
 			started = true;
 			loadStations(runningRoute);
@@ -141,15 +144,18 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
     function checkForRunningStation() {
         var runningStation = $cookies.get("runningStation");
         if (runningStation != undefined) {
-            setAttributesOfStation(runningStation);
+			setAttributesOfStation(runningStation);
+			removeStation(runningStation);
+			setStandartSelectionAndGetCalculatedStation();
             stationStarted = true;
-            $scope.btnStationStartStop = "Station beenden";
+			$scope.btnStationStartStop = "Station beenden";
+			$scope.vis_nextStation = {'visibility' : 'hidden'};
         }
     }
 
 	function loadStations(rRoute) {
 		var credObject = cloneCredentialsObject();
-		credObject.runningRoute = rRoute;
+		credObject.routenID = rRoute;
 	    $http.post(baseURL+"/getStations", credObject)
 		    .then(
 			    function mySuccess(response) {
@@ -183,7 +189,8 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	        var sendObject = cloneCredentialsObject();
 	        sendObject.start = seconds;
 	        sendObject.routenID = $scope.route_name;
-	        sendObject.stationName = stationName;
+			sendObject.stationName = stationName;
+			$scope.vis_nextStation = {'visibility' : 'hidden'};
 
 	        $http.post(baseURL + "/startStation", sendObject)
 		    .then(
@@ -211,7 +218,8 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	        var sendObject = cloneCredentialsObject();
 	        sendObject.end = seconds;
 	        sendObject.routenID = $scope.route_name;
-	        sendObject.stationName = $scope.akt_title;
+			sendObject.stationName = $scope.akt_title;
+			$scope.vis_nextStation = {'visibility' : 'visible'};
 
 	        $http.post(baseURL + "/endStation", sendObject)
             .then(
@@ -251,9 +259,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 				if($scope.selectedStation.name == nameOfStationWhichIsUsedForGenerateStation) {
 					$scope.nextStation_name = $scope.generated;
 				}
-				else {
-					console.log("Generated Station arrived");
-				}
+				console.log("Generated Station arrived");
 			},
 			function myError(response) {
 				alert("Error getting generated Route");
@@ -267,7 +273,8 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	    if (!started) {
             var sendObject = cloneCredentialsObject();
             sendObject.starttime = seconds;
-            loadStations();
+			loadStations();
+			$scope.vis_nextStation = {'visibility' : 'visible'};
             $http.post(baseURL + "/newRoute", sendObject)
 		    .then(
 			    function mySuccess(response) {
@@ -293,7 +300,8 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	        else {
 	            var sendObject = cloneCredentialsObject();
 	            sendObject.endtime = seconds;
-	            sendObject.id = $scope.route_name;
+				sendObject.id = $scope.route_name;
+				$scope.vis_nextStation = {'visibility' : 'hidden'};
 
 	            $http.post(baseURL + "/endRoute", sendObject)
                 .then(
