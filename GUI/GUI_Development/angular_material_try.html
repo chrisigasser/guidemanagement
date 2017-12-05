@@ -25,22 +25,86 @@
   <script type="text/javascript"> 
 var app = angular.module('myApp', ['ngMaterial']);
 app.controller('MyController', function($scope, $mdSidenav) {
-  $scope.openLeftMenu = function() {
+    $scope.openLeftMenu = function() {
     $mdSidenav('left').toggle();
   };
 });
+
+app.config(function($mdThemingProvider) {
+  $mdThemingProvider.theme('dark-grey').backgroundPalette('grey').dark();
+  $mdThemingProvider.theme('dark-orange').backgroundPalette('orange').dark();
+  $mdThemingProvider.theme('dark-purple').backgroundPalette('deep-purple').dark();
+      $mdThemingProvider.theme('dark-blue').backgroundPalette('blue').dark();
+      $mdThemingProvider.theme('def').backgroundPalette('grey');
+      });
+
   </script>
   
 	<div layout="row" ng-controller="MyController">
+	
   <md-sidenav md-component-id="left" class="md-sidenav-left">
-    Left Nav!
+   <md-card md-theme="{{'dark-purple'}}" md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Führung</span>
+            <span class="md-subhead">F001</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button>Start</md-button>
+        </md-card-actions>
+      </md-card>
+	<md-button id="btn_logout">Ausloggen</md-button>
+	
   </md-sidenav>
 
   <md-content>
-    Center Content
-    <md-button ng-click="openLeftMenu()">
-      Open Left Menu
-    </md-button>
+    <md-button class="md-icon-button md-primary"  ng-click="openLeftMenu()">
+        <img style="margin-left:3px; height:25px; width:25px; " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAI8AAACPCAYAAADDY4iTAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAENSURBVHhe7dyxDcJAEERR10NKD3RAB75zShkEFIKohYiGwEKX2LLQeTKk96QfbD7xDgAAAAAAAAAAAAAA8BdqrWept1LKqU3nO5631Ns8nlebjvFoX8ajOONRnPEozngUZzyKMx7FGY/ijEdxi/HMx1XqbR7QpU0HAAAAAAAAAAAAAAAAAAAAAADYsv78JP2qeCunNONRnPEozngUZzyKMx7FGY/ijEdxxqO49XieUm/zeO5tOgAAAAAAAAAAAAAAAAAAAAAAwJZa60PqrZRya9PxVk778pNQccajOONRnPEozngUZzyKMx7FGY/ijEdxi/GM43iUepum6dCmAwAAAAAAAAAAAAAAAGwZhg9Sftt74YmWFwAAAABJRU5ErkJggg==">
+	</md-button>
+
+	
+	 <md-content class="md-padding" layout-xs="column" layout="row">
+    <div flex-xs="" flex-gt-xs="50" layout="column">
+      <md-card md-theme="{{'dark-blue'}}" md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Aktuelle Station</span>
+            <span class="md-subhead">Diplomarbeiten (215)</span>
+          </md-card-title-text>
+        </md-card-title>
+		
+		<md-card-content>
+		<h3>Beschreibung:</h3> <label>Diese Station ist blabla und viele coole Sharepoint Sachen, bla bla...</label>
+        </md-card-content>
+      </md-card>
+	  
+	   <md-card md-theme="{{'dark-orange'}}" md-theme-watch="">
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">Nächste Station</span>
+            <span class="md-subhead">Programmierwerkstatt (217)</span>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-md card-media"></div>
+          </md-card-title-media>
+        </md-card-title>
+           <md-card-content>
+               <md-select ng-model="">
+                     <md-option>Station 1</md-option>
+                     <md-option>Station 2</md-option>
+                     <md-option>Station 3</md-option>
+                     <md-option>Station 4</md-option>
+                 </md-select>
+                
+        </md-card-content>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button>Fertig mit aktueller Station</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </md-content>
+	
   </md-content>
 </div>
 
