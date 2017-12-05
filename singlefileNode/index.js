@@ -53,13 +53,13 @@ app.post('/getstations', function (req, res) {
                             if (err) {
                                 throw "Could not access the table in the database"
                             }
-                            console.log(req.body.runningRoute);
                             if (req.body.runningRoute != undefined) {
                                 result.forEach(function (element) {
-                                    if (!element.visited.any(
+                                    console.log();
+                                    if (!element.visited.some(
                                         function (e) {
-                                            console.log(e.routenID + ':' + req.body.runningRoute);
-                                            return (e.routenID == req.body.runningRoute && e.end != -1);
+                                            console.log(e.routenID + ':' + req.body.routenID);
+                                            return (e.routenID == req.body.routenID && e.end != -1);
                                         }
                                     )) {
                                         allstationen.push(element);
@@ -100,16 +100,13 @@ app.post('/newRoute', function (req, res) {
                         db.collection("users").findOne({ username: credentials.username }, function (err, result) {
                             var myobj = {
                                 start: req.body.starttime,
-                                end: '',
+                                end: -1,
                                 reihenfolge: [],
                                 guide: result._id
                             };
-                            //onsole.log(myobj);
                             db.collection("routen").insertOne(myobj, function (err, insertresult) {
                                 if (err) throw err;
                                 res.send(insertresult.insertedId);
-                                //res.send('123pichlerisgay123');
-                                //console.log(insertresult);
                             });
                         });
 
@@ -128,8 +125,6 @@ app.post('/newRoute', function (req, res) {
 app.post('/endRoute', function (req, res) {
     try {
         if (req.body != undefined) {
-            //if(!checkCredentials(req.body.credentials))
-            //    return res.send('FAILED');
             var credentials = req.body.credentials;
             console.log(req.body);
             MongoClient.connect(mongoUri, function (err, db) {
@@ -174,22 +169,46 @@ app.post('/startStation', function (req, res) {
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd }, function (err, count) {
                     if (err) throw err;
                     if (count > 0) {
-                        var myquery = { name: req.body.stationName };
-                        var newvalues = {
-                            $push: {
-                                visited: {
-                                    start: req.body.start,
-                                    routenID: req.body.routenID,
-                                    end: -1
-                                }
-                            }
-                        };
+                        var atStart = -1;
 
-                        db.collection("stationen").updateOne(myquery, newvalues, function (err, result) {
+                        var myquery = { name: req.body.stationName };
+
+                        db.collection("stationen").findOne(myquery, function (err, resultStation) {
                             if (err) throw err;
-                            console.log('Station gestartet:' + result);
+                            atStart = resultStation.visited.filter(function (x) { return x.end == -1 }).length;
+                            var newvalues = {
+                                $push: {
+                                    visited: {
+                                        atstart: atStart,
+                                        start: req.body.start,
+                                        routenID: req.body.routenID,
+                                        end: -1
+                                    }
+                                }
+                            };
+
+                            db.collection("stationen").updateOne(myquery, newvalues, function (err, result) {
+                                if (err) throw err;
+                                //console.log('Station gestartet:' + result);
+                            });
+
+                            myquery = { _id: ObjectID(req.body.routenID) };
+                            newvalues = {
+                                $push: {
+                                    reihenfolge: {
+                                        name: req.body.stationName
+                                    }
+                                }
+                            };
+
+                            db.collection("routen").updateOne(myquery, newvalues, function (err, result) {
+                                if (err) throw err;
+                            });
+                            res.send('1');
                         });
-                        res.send('1');
+
+
+
                     } else {
                         res.send('FAILED');
                     }
