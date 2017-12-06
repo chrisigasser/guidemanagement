@@ -1,5 +1,5 @@
 var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
-var baseURL = "http://192.168.137.217:3000";
+var baseURL = "http://localhost:3000";
 var nameOfStationWhichIsUsedForGenerateStation = "next = generated";
 
 var credentialObject = null;
@@ -266,6 +266,19 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 				console.log(response);
 			}
 		);
+	}
+
+	$scope.logout = function() {
+		if(stationStarted) {
+			alert("Please finish station first!");
+		}
+		else if(started) {
+			alert("Please finish route first");
+		}
+		else {
+			$cookies.remove("cred");
+			$location.url("/");
+		}
 	}
 
 	$scope.startRoute = function () {
