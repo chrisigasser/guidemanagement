@@ -18,15 +18,9 @@
   <script type="text/javascript"> 
 var app = angular.module('myApp', ['ngMaterial']);
 app.controller('MyController', function($scope, $mdSidenav) {
-    $scope.openLeftMenu = function() {
-    $mdSidenav('left').toggle();
-  };
 });
   </script>
-  
 	<div layout="row" ng-controller="MyController">
-       
-
         <md-content style="margin-left: 3%;width: 95%;margin-top: 30%;" class="md-padding" layout-xs="column" layout="row">
             <div flex-xs="" flex-gt-xs="50" layout="column">
                 <md-card md-theme-watch="" style="background-color: #ff961a;color:whitesmoke;">
@@ -35,44 +29,29 @@ app.controller('MyController', function($scope, $mdSidenav) {
                             <span class="md-headline">Login</span>
                         </md-card-title-text>
                     </md-card-title>
-					
 					<md-card-content style="padding-bottom: 0px;">
-					
 					 <md-input-container class="md-icon-float md-block">
-     
 							<label>User</label>
-							
-								<input ng-model="user.name" type="text">
+								<input ng-model="txt_user" type="text" required="required">
 									</md-input-container>
-									
-									
+											
 									 <md-input-container class="md-icon-float md-block">
-   
 					<label>Passwort</label>
-					
-							<input ng-model="user.name" type="text">
+							<input ng-model="txt_pwd" type="text" required="required">
 						</md-input-container>
 					
 					</md-card-content>
 					
 					<mat-card-footer layout="row" layout-align="center center">
-					<label id="lbl_Error" style="color:red;">{ERROR_LBL}</label>
+					<label style="color:red;" ng-bind="auth_msg">&nbsp;</label>
 					</mat-card-footer>
 					
                     <md-card-actions layout="column" layout-align="center stretch">
-                        <md-button>Login</md-button>
+                        <md-button ng-click="checkLogin();">Login</md-button>
                     </md-card-actions>
-					
-					
                 </md-card>
-               
-
             </div>
-           
         </md-content>
-
-
-
 </div>
 
 
