@@ -14,14 +14,7 @@
     <!-- <link rel="stylesheet" src="angular.css"> -->
 </head>
 <body ng-app="myApp" ng-cloak>
-  <!--
-    Your HTML content here
-  -->  
-  
-  <!-- Angular Material requires Angular.js Libraries -->
- 
-  
-  <!-- Your application bootstrap  -->
+
   <script type="text/javascript"> 
 var app = angular.module('myApp', ['ngMaterial']);
 app.controller('MyController', function($scope, $mdSidenav) {
@@ -34,23 +27,43 @@ app.controller('MyController', function($scope, $mdSidenav) {
 	<div layout="row" ng-controller="MyController">
        
 
-        <md-content class="md-padding" layout-xs="column" layout="row">
+        <md-content style="margin-left: 3%;width: 95%;margin-top: 30%;" class="md-padding" layout-xs="column" layout="row">
             <div flex-xs="" flex-gt-xs="50" layout="column">
-                <md-card md-theme="{{'dark-grey'}}" md-theme-watch="">
+                <md-card md-theme-watch="" style="background-color: #ff961a;color:whitesmoke;">
                     <md-card-title>
                         <md-card-title-text>
                             <span class="md-headline">Login</span>
-                            
                         </md-card-title-text>
-                        <md-card-title-media>
-                            <div class="md-media-lg card-media"></div>
-
-                        </md-card-title-media>
                     </md-card-title>
-                    <md-card-actions layout="row" layout-align="end center">
+					
+					<md-card-content>
+					
+					 <md-input-container class="md-icon-float md-block">
+     
+							<label>User</label>
+							
+								<input ng-model="user.name" type="text">
+									</md-input-container>
+									
+									
+									 <md-input-container class="md-icon-float md-block">
+   
+					<label>Passwort</label>
+					
+							<input ng-model="user.name" type="text">
+						</md-input-container>
+					
+					</md-card-content>
+					
+					<mat-card-footer layout="row" layout-align="center center">
+					<label id="lbl_Error" style="color:red;">{ERROR_LBL}</label>
+					</mat-card-footer>
+					
+                    <md-card-actions layout="column" layout-align="center stretch">
                         <md-button>Login</md-button>
-                     
                     </md-card-actions>
+					
+					
                 </md-card>
                
 
