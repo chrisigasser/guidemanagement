@@ -1,0 +1,54 @@
+﻿
+		  <h1 class="">Guidemanagement</h1>
+
+        <div class="card">
+            <div class="card-header">
+                <h3>Führung</h3>
+            </div>
+
+            <div class="card-body">
+                <label ng-bind="akt_fuehrung">F001</label>
+            </div>
+
+            <div class="card-footer">
+                <button id="startFuehrung_btn" class="btn btn-info btn-sm" ng-click="startRoute();">Führung starten</button>
+            </div>
+        </div>
+
+        <div id="bigDiv">
+            <div ng-bind="station_view" class="card">
+                <div class="card-header">
+                    <h3>Aktuelle Station</h3>
+                </div>
+                <div class="card-body">
+
+                    <label class="" ng-bind="akt_title">Diplomarbeiten (215)</label>
+                </div>
+                <div class="card-footer">
+                    <label>Beschreibung:</label>
+                    <textarea class="form-control" disabled rows="4" ng-bind="akt_desc">laskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflaklaskjflsjdflak</textarea>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Nächste Station</h3>
+                </div>
+                <div class="card-body">
+                    <label>Nächste Station wird hier angezeigt.</label>
+                </div>
+                <div class="card-footer">
+                    <select name="Stationen" id="selectStation" selected-index="0" ng-model="selectedStation" ng-options="x.name for x in allStations">
+                        <option>Station 1 asjkdfbsadkfjhasdkhjfsadsdfsdfsdfsdfsfkjsdaf</option>
+                        <option>Station 2</option>
+                        <option>Station 3</option>
+                        <option>Station 4</option>
+                    </select>
+                    <button id="finishedStation_btn" class="btn btn-success btn-sm" ng-click="update();">Fertig mit aktueller Station</button>
+                </div>
+            </div>
+            <a class="nav-link small" href="#">Log out</a>
+        </div>
+		
+		
