@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
+var app = angular.module('myApp', ['ngRoute', 'ngCookies', 'ngMaterial']);
 var baseURL = "http://192.168.137.217:3000";
 var nameOfStationWhichIsUsedForGenerateStation = "next = generated";
 
@@ -39,7 +39,7 @@ app.factory('LoginCookieService', ["$cookies", "$http", function ($cookies, $htt
 
 
 
-app.controller('loginController', ['LoginCookieService',"$scope", "$http", "$timeout", "$location", "$cookies", function (LoginCookieService, $scope, $http, $timeout, $location, $cookies) {
+app.controller('loginController', ['LoginCookieService',"$scope", "$http", "$timeout", "$location", "$cookies",  function (LoginCookieService, $scope, $http, $timeout, $location, $cookies) {
     LoginCookieService.tryLoadOfCookie(
         (response) => {
             if (response.data != "PASSED") {
