@@ -1,5 +1,5 @@
 var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
-var baseURL = "http://localhost:3000";
+var baseURL = "http://192.168.137.217:3000";
 var nameOfStationWhichIsUsedForGenerateStation = "next = generated";
 
 var credentialObject = null;
