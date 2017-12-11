@@ -9,7 +9,7 @@
             </div>
 
             <div class="card-body">
-                <label ng-bind="akt_fuehrung" ng-bind="route_name"></label>
+                <label ng-bind="route_name">asdf</label>
             </div>
 
             <div class="card-footer">
@@ -24,7 +24,7 @@
                 </div>
                 <div class="card-body">
 
-                    <label class="" ng-bind="akt_title">asfasdf</label>
+                    <label class="" ng-bind="akt_title"></label>
                 </div>
                 <div class="card-footer">
                     <label>Beschreibung:</label>
@@ -34,11 +34,13 @@
 
 
             <div class="card">
+                <div ng-style="vis_nextStation">
                 <div class="card-header">
                     <h3>Nächste Station</h3>
                 </div>
                 <div class="card-body">
                     <label ng-bind="nextStation_name"></label>
+                </div>
                 </div>
                 <div class="card-footer">
                     <select name="Stationen" id="selectStation" ng-style="vis_nextStation" selected-index="0" ng-change="selectedStationChanged()" ng-model="selectedStation" ng-options="x.name for x in allStations">

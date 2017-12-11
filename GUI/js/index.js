@@ -32,7 +32,12 @@ app.factory('LoginCookieService', ["$cookies", "$http", function ($cookies, $htt
                 catch (error) {
                     console.log(error);
                 }
-            }
+			}
+			else {
+				var response = {};
+				response.data = "INVALID";
+				success(response);
+			}
         }
     };
 }]);
@@ -43,7 +48,7 @@ app.controller('loginController', ['LoginCookieService',"$scope", "$http", "$tim
     LoginCookieService.tryLoadOfCookie(
         (response) => {
             if (response.data != "PASSED") {
-                $scope.auth_msg = "INVALID Cookie Found";
+                $scope.auth_msg = "INVALID or NO Cookie Found";
             }
             else {
                 loadMainPage();
@@ -118,7 +123,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
             );
     }
     else {
-        loggedInSucess();
+		loggedInSucess();
     }
 
     function loggedInSucess() {
