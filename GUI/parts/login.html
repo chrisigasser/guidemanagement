@@ -1,9 +1,35 @@
-		<div class="login">
-			<h1>Login</h1>
-			<div>
-				<input class="login_input" type="text"  ng-model="txt_user"   placeholder="Username" required="required" />
-				<input class="login_input" type="password" ng-model="txt_pwd" placeholder="Password" required="required" />
-				<button type="submit"		    id="btn_Login"      ng-click="checkLogin();" >Login</button>
-				<label id="lbl_status" ng-bind="auth_msg">&nbsp;</label>
-			</div>
-		</div>
+
+
+<div layout="row">
+        <md-content style="margin-left: 3%;width: 95%;margin-top: 30%;" class="md-padding" layout-xs="column" layout="row">
+            <div flex-xs="" flex-gt-xs="50" layout="column">
+                <md-card md-theme-watch="" style="background-color: #ff961a;color:whitesmoke;">
+                    <md-card-title>
+                        <md-card-title-text>
+                            <span class="md-headline">Login</span>
+                        </md-card-title-text>
+                    </md-card-title>
+					<md-card-content style="padding-bottom: 0px;">
+					 <md-input-container class="md-icon-float md-block">
+							<label>User</label>
+								<input ng-model="txt_user" type="text" required="required">
+									</md-input-container>
+											
+									 <md-input-container class="md-icon-float md-block">
+					<label>Passwort</label>
+							<input ng-model="txt_pwd" type="text" required="required">
+						</md-input-container>
+					
+					</md-card-content>
+					
+					<mat-card-footer layout="row" layout-align="center center">
+					<label style="color:red;" ng-bind="auth_msg">&nbsp;</label>
+					</mat-card-footer>
+					
+                    <md-card-actions layout="column" layout-align="center stretch">
+                        <md-button ng-click="checkLogin();">Login</md-button>
+                    </md-card-actions>
+                </md-card>
+            </div>
+        </md-content>
+</div>
