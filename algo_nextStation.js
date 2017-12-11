@@ -91,14 +91,14 @@ var object4 = [
 ];
 
 
-var objectToConsider = object4;
+var objectToConsider = object1;
 
 var maxPeople = 1;
 var avgTimeSum = objectToConsider[0].avgTime;
-var maxChangeTime = avgTimeSum / 3;
+var maxChangeTime = Math.pow(avgTimeSum / 3,2);
 
 for(var i = 1; i < objectToConsider.length; i++) {
-    if(objectToConsider[i].avgTime-(avgTimeSum/i) >= maxChangeTime) {
+    if(Math.pow(objectToConsider[i].avgTime-(avgTimeSum/i),2) >= maxChangeTime) {
         maxPeople = objectToConsider[i].people;
         break;
     }
