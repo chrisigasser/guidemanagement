@@ -155,7 +155,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 
 	function loadStations(rRoute) {
 		var credObject = cloneCredentialsObject();
-		credObject.routenID = rRoute;
+		credObject.runningRoute = rRoute;
 	    $http.post(baseURL+"/getStations", credObject)
 		    .then(
 			    function mySuccess(response) {
@@ -172,13 +172,19 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	}
 
 	$scope.selectedStationChanged = function () {
-	    var station = $scope.selectedStation;
-	    if (station.name == nameOfStationWhichIsUsedForGenerateStation) {
-			$scope.nextStation_name = $scope.generated;
-	    }
-	    else {
-	        $scope.nextStation_name = station.name;
-	    }
+		if($scope.allStations.length == 1) {
+			$scope.nextStation_name = "Keine Stationen mehr!";
+		}
+		else {
+			var station = $scope.selectedStation;
+			if (station.name == nameOfStationWhichIsUsedForGenerateStation) {
+				$scope.nextStation_name = "loading";
+				loadNextGeneratedStation();
+			}
+			else {
+				$scope.nextStation_name = station.name;
+			}
+		}
 	}
 	
 	$scope.update = function () {
@@ -186,33 +192,38 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	    var seconds = Math.round(new Date().getTime() / 1000);
 
 	    if (!stationStarted) {
-	        var sendObject = cloneCredentialsObject();
-	        sendObject.start = seconds;
-	        sendObject.routenID = $scope.route_name;
-			sendObject.stationName = stationName;
-			$scope.vis_nextStation = {'visibility' : 'hidden'};
-
-	        $http.post(baseURL + "/startStation", sendObject)
-		    .then(
-			    function mySuccess(response) {
-			        if (response.data == "1") {
-			            $cookies.put("runningStation", stationName);
-			            setAttributesOfStation(stationName);
-			            removeStation(stationName);
-			            setStandartSelectionAndGetCalculatedStation();
-			            $scope.nextStation_name = "";
-			            $scope.btnStationStartStop = "Station beenden";
-			        }
-			        else {
-			            alert("Server responded with " + response.data);
-			        }
-			    },
-			    function myError(response) {
-			        alert("Error starting at station");
-			        console.log(response);
-			    }
-		    );
-	        stationStarted = true;
+	        if(stationName == undefined || stationName == "Keine Stationen mehr!") {
+				alert("Deine Führung ist bereits fertig!");
+			} 
+			else {
+				var sendObject = cloneCredentialsObject();
+				sendObject.start = seconds;
+				sendObject.routenID = $scope.route_name;
+				sendObject.stationName = stationName;
+				$scope.vis_nextStation = {'visibility' : 'hidden'};
+	
+				$http.post(baseURL + "/startStation", sendObject)
+				.then(
+					function mySuccess(response) {
+						if (response.data == "1") {
+							$cookies.put("runningStation", stationName);
+							setAttributesOfStation(stationName);
+							removeStation(stationName);
+							setStandartSelectionAndGetCalculatedStation();
+							$scope.nextStation_name = "";
+							$scope.btnStationStartStop = "Station beenden";
+						}
+						else {
+							alert("Server responded with " + response.data);
+						}
+					},
+					function myError(response) {
+						alert("Error starting at station");
+						console.log(response);
+					}
+				);
+				stationStarted = true;
+			}
 	    }
 	    else {
 	        var sendObject = cloneCredentialsObject();
@@ -221,12 +232,15 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 			sendObject.stationName = $scope.akt_title;
 			$scope.vis_nextStation = {'visibility' : 'visible'};
 
+
 	        $http.post(baseURL + "/endStation", sendObject)
             .then(
                 function mySuccess(response) {
                     if (response.data == 1) {
                         $cookies.remove("runningStation");
-                        $scope.btnStationStartStop = "Mit Station beginnen";
+						$scope.btnStationStartStop = "Mit Station beginnen";
+						console.log("Hole neues");
+						loadNextGeneratedStation();
                         setAttributesOfStation();
                     }
                     else {
@@ -238,34 +252,57 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
                     console.log(response);
                 }
             );
-	        stationStarted = false;
+			stationStarted = false;
 	    }
 	}
 
 	function setStandartSelectionAndGetCalculatedStation() {
 		$scope.selectedStation = $scope.allStations.find((e) => { return e.name == nameOfStationWhichIsUsedForGenerateStation });
-		//loadNextGeneratedStation();
-		//TODO GET ASYNC
+		if($scope.allStations.length == 1) {
+			$scope.nextStation_name = "Keine Stationen mehr!";
+		}
+		else {
+			loadNextGeneratedStation();
+		}
 	}
 
 	function loadNextGeneratedStation() {
-		//TODO not yet implemented in backend
+		//TODO stability tests
 		var sendObject = cloneCredentialsObject();
-		sendObject.routeID = $scope.route_name;
-		$http.post(baseURL + "/getStation", sendObject)
-		.then(
-			function mySuccess(response) {
-				$scope.generated = response.data;
-				if($scope.selectedStation.name == nameOfStationWhichIsUsedForGenerateStation) {
-					$scope.nextStation_name = $scope.generated;
-				}
-				console.log("Generated Station arrived");
-			},
-			function myError(response) {
-				alert("Error getting generated Route");
-				console.log(response);
+		sendObject.runningRoute = $scope.route_name;
+		if($scope.allStations.length == 1) {
+			$scope.nextStation_name = "Keine Stationen mehr!";
+		}
+		else {
+			if($scope.route_name != "No id provided yet") {
+				$http.post(baseURL + "/getStation", sendObject)
+				.then(
+					function mySuccess(response) {
+						if(response.data == -1)
+							alert("Error occured! Please choose a station by hand!");
+						else {
+							$scope.generated = response.data;
+							if($scope.selectedStation.name == nameOfStationWhichIsUsedForGenerateStation) {
+									$scope.nextStation_name = $scope.generated[0];
+							}
+							console.log("  ");
+							console.log("  ");				console.log("  ");				console.log("  ");				console.log("  ");
+							console.log("Send Object used:")
+							console.log(sendObject);
+							console.log("Generated Station arrived");
+							console.log("Generated Stations are:");
+							console.log(response.data);
+							console.log("Done");
+							console.log("  ");				console.log("  ");				console.log("  ");				console.log("  ");
+						}
+					},
+					function myError(response) {
+						alert("Error getting generated Route");
+						console.log(response);
+					}
+				);
 			}
-		);
+		}
 	}
 
 	$scope.logout = function() {
@@ -292,8 +329,8 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 		    .then(
 			    function mySuccess(response) {
 			        $cookies.put("runningRoute", response.data);
-			        $scope.route_name = response.data;
-
+					$scope.route_name = response.data;
+					loadNextGeneratedStation();
 			    },
 			    function myError(response) {
 			        alert("Error getting new Route");
