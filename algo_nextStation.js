@@ -91,7 +91,7 @@ var object4 = [
 ];
 
 
-var objectToConsider = object1;
+var objectToConsider = object4;
 
 var maxPeople = 1;
 var avgTimeSum = objectToConsider[0].avgTime;
