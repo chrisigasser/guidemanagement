@@ -18,7 +18,7 @@ else {
 
 $install = 0
 try {
-    & 'C:\Program Files\MongoDB\Server\3.4\bin\mongo.exe' --help 2>&1 | Out-Null -ErrorAction stop
+    & 'C:\Program Files\MongoDB\Server\3.6\bin\mongo.exe' --help 2>&1 | Out-Null -ErrorAction stop
     $install = 0
 }
 catch {
@@ -40,8 +40,8 @@ if($exists -eq $false) {
     new-item C:\data\db -itemtype directory | Out-Null
 }
 
-if(!($env:Path -split ";" -contains "C:\Program Files\MongoDB\Server\3.4\bin\")) {
-    $env:Path += ";C:\Program Files\MongoDB\Server\3.4\bin\"
+if(!($env:Path -split ";" -contains "C:\Program Files\MongoDB\Server\3.6\bin\")) {
+    $env:Path += ";C:\Program Files\MongoDB\Server\3.6\bin\"
     [Environment]::SetEnvironmentVariable("PATH", $env:Path, "User")
     Write-Host "Added mongo to PATH variable";
 }

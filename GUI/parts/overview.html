@@ -1,55 +1,85 @@
-﻿        <!-- new -->
+﻿
+<!-- new -->
 
+<div class="container">
+    <div class="container">
+        <div class="row">
+            <div class="col-1">
+                <h1>Guidemanagement</h1>
+            </div>
+        </div>
+    </div>
 
-             <h1 class="">Guidemanagement</h1>
-
-        <div class="card">
-            <div class="card-header">
+    <!-- Führung-->
+    <div class="container card" style="margin-bottom:2.5%;">
+        <div class="row">
+            <div class="col">
                 <h3>Führung</h3>
-            </div>
-
-            <div class="card-body">
-                <label ng-bind="route_name">asdf</label>
-            </div>
-
-            <div class="card-footer">
-                <button id="startFuehrung_btn" class="btn btn-info btn-sm" ng-bind="btnRouteStartStop" ng-disabled="loggedIn==false" ng-click="startRoute();"></button>
+                <label class="border border-info rounded" ng-bind="route_name">adsasdf</label>
             </div>
         </div>
 
-        <div id="bigDiv"  ng-style="vis_station_view">
-            <div class="card">
-                <div class="card-header">
-                    <h3>Aktuelle Station</h3>
-                </div>
-                <div class="card-body">
+        <button style="margin-bottom:2.5%;" class="btn btn-info btn-sm" ng-bind="btnRouteStartStop" ng-disabled="loggedIn==false" ng-click="startRoute();">Fuehrung beenden</button>
+    </div>
 
-                    <label class="" ng-bind="akt_title"></label>
-                </div>
-                <div class="card-footer">
-                    <label>Beschreibung:</label>
-                    <textarea class="form-control" disabled rows="4" ng-bind="akt_desc"></textarea>
+
+    <div id="bigDiv" ng-style="vis_station_view">
+
+        <!-- Aktuelle Station-->
+        <div class="container card" style="margin-bottom:2.5%;">
+            <div class="row">
+                <div class="col">
+                    <h3 style="margin-top:2.5%;">Aktuelle Station</h3>
                 </div>
             </div>
 
-
-            <div class="card">
-                <div ng-style="vis_nextStation">
-                <div class="card-header">
-                    <h3>Nächste Station</h3>
-                </div>
-                <div class="card-body">
-                    <label ng-bind="nextStation_name"></label>
-                </div>
-                </div>
-                <div class="card-footer">
-                    <select name="Stationen" id="selectStation" ng-style="vis_nextStation" selected-index="0" ng-change="selectedStationChanged()" ng-model="selectedStation" ng-options="x.name for x in allStations">
-                    </select>
-                    <button id="finishedStation_btn" class="btn btn-success btn-sm" ng-bind="btnStationStartStop" ng-click="update();"></button>
+            <div class="row">
+                <div class="col">
+                    <label class="border border-info rounded" ng-bind="akt_title">asddf</label>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col">
+                    <label class="label label-default">Beschreibung:</label>
+                    <textarea style="margin-bottom:2.5%;" class="form-control" disabled rows="5" ng-bind="akt_desc"></textarea>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- Nächste Station-->
+        <div class="container card" style="margin-bottom:2.5%;">
+
+            <div class="row">
+                <div class="col">
+                    <h3 style="margin-top:2.5%;">Nächste Station</h3>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label class="border border-info rounded" ng-bind="nextStation_name"></label>
+                </div>
+            </div>
+
+            <div class="row" style="margin-bottom:2.5%;">
+                <div class="col">
+                    <select name="Stationen" id="selectStation" ng-style="vis_nextStation" selected-index="0" ng-change="selectedStationChanged()" ng-model="selectedStation" ng-options="x.name for x in allStations"></select>
+                </div>
+                <div class="col">
+                    <button id="finishedStation_btn"  class="btn btn-success btn-sm" ng-bind="btnStationStartStop" ng-click="update();"></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container card">
+        <div class="row">
             <button class="nav-link small" ng-click="logout();">Log out</button>
         </div>
-    
-	
-		
+       
+    </div>
+
+</div>
