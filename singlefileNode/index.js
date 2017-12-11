@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.post('/checkAuthentification', function (req, res) {
     try {
         if (req.body != undefined) {
-            console.log(req.body);
+            //console.log(req.body);
 
             var credentials = req.body.credentials;
             MongoClient.connect(mongoUri, function (err, db) {
@@ -56,11 +56,10 @@ app.post('/getstations', function (req, res) {
                             }
                             if (req.body.runningRoute != undefined) {
                                 result.forEach(function (element) {
-                                    console.log();
+                                    //console.log();
                                     if (!element.visited.some(
                                         function (e) {
-                                            console.log(e.routenID + ':' + req.body.routenID);
-                                            return (e.routenID == req.body.routenID && e.end != -1);
+                                            return (e.routenID == req.body.runningRoute && e.end != -1);
                                         }
                                     )) {
                                         allstationen.push(element);
@@ -98,13 +97,43 @@ app.post('/getstation', function (req, res) {
                     if (count > 0) {
                         db.collection("stationen").find({}).toArray(function (err, result) {
                             if (err) throw err;
+                            if (req.body.runningRoute != undefined) {
+                                result.forEach(function (element) {
+                                    //console.log();
+                                    if (!element.visited.some(
+                                        function (e) {
+                                            return (e.routenID == req.body.runningRoute && e.end != -1);
+                                        }
+                                    )) {
+                                        allstationen.push(element);
+                                    }
+                                }, this);
+                            }
+                            else {
                                 result.forEach(function (element) {
                                     allstationen.push(element);
                                 }, this);
-                            res.send(Balancer.extractInfo(allstationen));
+                            }
+                            allstationen = allstationen.filter(filelem => { return filelem.name != "next = generated"; });
+                            var extracted = Balancer.extractInfo(allstationen);
+                            var withCurCount = [];
+                            withCurCount = extracted.map(y => {
+                                var temp = y;
+                                //console.log(allstationen);
+                                var tobecounted = allstationen.find(tof => {
+                                    return tof.name == y.id;
+                                });
+                                temp.curpeople = tobecounted.visited.filter(function (x) { return (x.end == -1) }).length
+                                return temp;
+                            });
+                            //console.log(withCurCount);
+                            var toreturn = Balancer.findRecommended(withCurCount, 2);
+                            toreturn = toreturn.map(mapelem => {
+                                return mapelem.id;
+                            });
+                            res.send(toreturn);
                         });
                     }
-                    db.close();
                 });
             });
         }
@@ -120,7 +149,7 @@ app.post('/newRoute', function (req, res) {
             //if(!checkCredentials(req.body.credentials))
             //    return res.send('FAILED');
             var credentials = req.body.credentials;
-            console.log(req.body);
+            //console.log(req.body);
             MongoClient.connect(mongoUri, function (err, db) {
                 if (err) throw err;
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd }, function (err, count) {
@@ -155,7 +184,7 @@ app.post('/endRoute', function (req, res) {
     try {
         if (req.body != undefined) {
             var credentials = req.body.credentials;
-            console.log(req.body);
+            //console.log(req.body);
             MongoClient.connect(mongoUri, function (err, db) {
                 if (err) throw err;
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd }, function (err, count) {
@@ -167,12 +196,12 @@ app.post('/endRoute', function (req, res) {
 
                         db.collection("routen").updateOne(myquery, newvalues, function (err, result) {
                             if (err) throw err;
-                            console.log('Route ended:' + result);
+                            //console.log('Route ended:' + result);
                         });
                         db.collection("routen").findOne(myquery, function (err, resultRouten) {
                             if (err) throw err;
                             var difference = parseInt(req.body.endtime) - parseInt(resultRouten.start);
-                            console.log(req.body.endtime + ':' + resultRouten.start);
+                            //console.log(req.body.endtime + ':' + resultRouten.start);
                             res.send(difference + "");
                         });
                     } else {
@@ -191,7 +220,7 @@ app.post('/startStation', function (req, res) {
     try {
         if (req.body != undefined) {
             var credentials = req.body.credentials;
-            console.log(req.body);
+            //console.log(req.body);
             MongoClient.connect(mongoUri, function (err, db) {
                 if (err) throw err;
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd }, function (err, count) {
@@ -233,18 +262,18 @@ app.post('/startStation', function (req, res) {
                                 res.send('1');
                             },
                             (err) => {
-                                //todo on error
+                                res.send('-1');
                             },
                             req.body.stationName, db);
                     }
                     else {
-                        //todo
+                        res.send('-1');
                     }
                 });
             });
         }
         else {
-            //todo
+            res.send('-1');
         }
     } catch (error) {
         console.log('oh no exception');
@@ -253,18 +282,26 @@ app.post('/startStation', function (req, res) {
 
 
 function getStationCount(toCallOnSuccess, toCallOnError, stationName, db) {
-    var atStart = -1;
+    if (stationName == undefined) {
+        toCallOnError();
+    } else {
+        var atStart = -1;
 
-    var myquery = { name: stationName };
+        var myquery = { name: stationName };
 
-    db.collection("stationen").findOne(myquery, function (err, resultStation) {
-        if (err) {
-            toCallOnError(err);
-        } else {
-            atStart = resultStation.visited.filter(function (x) { return x.end == -1 }).length;
-            toCallOnSuccess(atStart);
-        }
-    });
+        db.collection("stationen").findOne(myquery, function (err, resultStation) {
+            if (err) {
+                toCallOnError(err);
+            } else {
+                if (resultStation == undefined || resultStation.visited == undefined) {
+                    toCallOnError();
+                } else {
+                    atStart = resultStation.visited.filter(function (x) { return x.end == -1 }).length;
+                    toCallOnSuccess(atStart);
+                }
+            }
+        });
+    }
 }
 
 
@@ -272,7 +309,7 @@ app.post('/endStation', function (req, res) {
     try {
         if (req.body != undefined) {
             var credentials = req.body.credentials;
-            console.log(req.body);
+            //console.log(req.body);
             MongoClient.connect(mongoUri, function (err, db) {
                 if (err) throw err;
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd }, function (err, count) {
@@ -283,10 +320,10 @@ app.post('/endStation', function (req, res) {
                                 count--;
                                 var myquery = { name: req.body.stationName, "visited.routenID": req.body.routenID };
                                 var newvalues = { $set: { "visited.$.end": req.body.end, "visited.$.atEnd": count } };
-                                console.log(myquery);
+                                //console.log(myquery);
                                 db.collection("stationen").updateOne(myquery, newvalues, function (err, result) {
                                     if (err) throw err;
-                                    console.log('Station beendet:' + result);
+                                    //console.log('Station beendet:' + result);
                                 });
                                 res.send('1');
                             },
