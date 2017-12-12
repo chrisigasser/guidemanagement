@@ -57,7 +57,6 @@ exports.findRecommended = function (jsonArray, numberOfStationsToBeLoaded) {
         else
             return a - b;
     })
-    console.log(stationsFreeSpots);
     stationsFreeSpots = stationsFreeSpots.splice(0, numberOfStationsToBeLoaded);
     return stationsFreeSpots;
 }
