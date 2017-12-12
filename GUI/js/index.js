@@ -33,11 +33,6 @@ app.factory('LoginCookieService', ["$cookies", "$http", function ($cookies, $htt
                     console.log(error);
                 }
 			}
-			else {
-				var response = {};
-				response.data = "INVALID";
-				success(response);
-			}
         }
     };
 }]);
@@ -108,20 +103,25 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
     var stationStarted = false;
 
     if (credentialObject == undefined) {
-        LoginCookieService.tryLoadOfCookie(
-            (response) => {
-                if (response.data != "PASSED") {
-                    $location.url("/");
-                }
-                else {
-                    loggedInSucess();
-                }
-            },
-            (response) => {
-                alert("not reachable! unable to check if cookie is valid");
-            }
-            );
-    }
+		if($cookies.get("cred") == undefined) {
+			$location.url("/");
+		}
+		else {
+			LoginCookieService.tryLoadOfCookie(
+				(response) => {
+					if (response.data != "PASSED") {
+						$location.url("/");
+					}
+					else {
+						loggedInSucess();
+					}
+				},
+				(response) => {
+					alert("not reachable! unable to check if cookie is valid");
+				}
+				);
+		}
+	}
     else {
 		loggedInSucess();
     }
