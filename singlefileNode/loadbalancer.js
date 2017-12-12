@@ -48,8 +48,16 @@ exports.findRecommended = function (jsonArray, numberOfStationsToBeLoaded) {
         return toadd;
     });
     stationsFreeSpots = stationsFreeSpots.sort((a, b) => {
-        return a - b;
+        if(a.people==b.people)
+            return a.curpeople - b.curpeople;
+        else if (a.people==0)
+            return -1;
+        else if(b.people==0)
+            return 1;
+        else
+            return a - b;
     })
+    console.log(stationsFreeSpots);
     stationsFreeSpots = stationsFreeSpots.splice(0, numberOfStationsToBeLoaded);
     return stationsFreeSpots;
 }
