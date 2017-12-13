@@ -12,12 +12,12 @@ function generateRoutes() {
 
     var array = [];
     for(var i = 0; i < 15000; i++) {
-        array.push(getNextExpo());
+        array.push(getNextNorm());
     }
     postMessage(array);
 }
 
-function getNextExpo() {
+function getNextNorm() {
     var delay = (-Math.log(Math.random())/rate);
     if(Math.floor((Math.random() * 2)-1) == 0)
         delay *= -1;
@@ -25,7 +25,7 @@ function getNextExpo() {
     
     delay += rate;
     if(delay > rate*2 || delay < 0)
-        return getNextExpo();
+        return getNextNorm();
     
     return delay;
 }
