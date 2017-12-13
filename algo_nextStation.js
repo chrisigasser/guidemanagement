@@ -52,44 +52,6 @@ var object2 = [
     }
 ];
 
-var object3 = [
-    {
-        people: 1,
-        avgTime: 19
-    },
-    {
-        people: 2,
-        avgTime: 30
-    },
-    {
-        people: 3,
-        avgTime: 30
-    },
-    {
-        people: 4,
-        avgTime: 31
-    },
-    {
-        people: 5,
-        avgTime: 59
-    },
-    {
-        people: 6,
-        avgTime: 61
-    }
-];
-
-var object4 = [
-    {
-        people: 1,
-        avgTime: 19
-    },
-    {
-        people: 2,
-        avgTime: 19
-    },
-];
-
 
 var objectToConsider = object1;
 
