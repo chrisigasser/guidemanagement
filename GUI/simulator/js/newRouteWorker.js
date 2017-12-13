@@ -11,19 +11,20 @@ function generateRoutes() {
     
 
     var array = [];
-    for(var i = 0; i < 10000; i++) {
+    for(var i = 0; i < 15000; i++) {
         array.push(getNextExpo());
     }
     postMessage(array);
 }
 
 function getNextExpo() {
-    var delay = (-Math.log(Math.random())/rate)*ankuft;
-    if(Math.floor((Math.random() * 1)) == 0)
+    var delay = (-Math.log(Math.random())/rate);
+    if(Math.floor((Math.random() * 2)-1) == 0)
         delay *= -1;
+    delay *= ankuft;
     
-    delay += 12;
-    if(delay > 24 || delay < 0)
+    delay += rate;
+    if(delay > rate*2 || delay < 0)
         return getNextExpo();
     
     return delay;
