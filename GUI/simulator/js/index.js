@@ -39,15 +39,26 @@
 
 
 var app = angular.module('myApp', []);
-var serverURL = "http://localhost:3000";
+var serverURL = "http://192.168.137.217:3000";
 var baseURL = "/pre/simulator";
 
 var credentialObject = {credentials: {username: "guide", pwd: "6a2200b0cc85d41f7e0d6e3194dc8f04eabb3a3f6d891b7c2c8b072787c0d80c"}};
 
 var newRouteWorker = undefined;
 
+
+
 app.controller('myCtrl', ["$scope", "$http", "$timeout", function ($scope, $http, $timeout) {
     $scope.ankunft = 5;
+
+    $scope.runningStations = 0;
+    $scope.runningRoutes = 0;
+
+    $scope.stopNewRouteWorker = function() {
+        if(newRouteWorker != undefined) {
+            newRouteWorker.terminate();
+        }
+    }
 
     $scope.startNewRouteWorker = function() {
 
@@ -65,6 +76,9 @@ app.controller('myCtrl', ["$scope", "$http", "$timeout", function ($scope, $http
                     rWorker.postMessage({type: "init server", value: serverURL});
                     rWorker.postMessage({type: "init credentials", value: credentialObject});
                     rWorker.postMessage({type: "run"});
+                    $scope.$apply(() => {
+                        $scope.runningRoutes+=1;
+                    });
                     break;
             }
         }
@@ -74,6 +88,9 @@ app.controller('myCtrl', ["$scope", "$http", "$timeout", function ($scope, $http
     function onMessageRouteWorker(data) {
         switch(data.data.type) {
             case "route finished":
+                $scope.$apply(() => {
+                    $scope.runningRoutes-=1;
+                });
                 console.log("Route finished successful!");
                 break;
             case "station question":
@@ -81,10 +98,19 @@ app.controller('myCtrl', ["$scope", "$http", "$timeout", function ($scope, $http
                 data.srcElement.postMessage({type: "station start", station: data.data.station, duration: delay});
                 break;
             case "station start":
+                $scope.$apply(() => {
+                    $scope.runningStations+=1;
+                });
                 addPersonToStation(data.data.station);
                 break;
             case "station stop":
+                $scope.$apply(() => {
+                    $scope.runningStations-=1;
+                });
                 removePersonFromStation(data.data.station);
+                break;
+            case "alert":
+                alert(data.data.value);
                 break;
         }
     }

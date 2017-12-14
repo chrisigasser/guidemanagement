@@ -108,9 +108,10 @@ function finishStation() {
                     postMessage({type: "station stop", station: runningStation});
                     log("Finished at station: " + runningStation);
                     runningStation = undefined;
-                    setTimeout(start, 100); //change here timeout between each start of station
+                    setTimeout(start, 1000); //change here timeout between each start of station = timeout to walk to station
                 }
                 else {
+                    postMessage({type: "alert", value: "Failed to finish station"});
                     console.log("******ERROR********");
                     log("at finishStation");
                     log("Response != 1: " + this.responseText);
