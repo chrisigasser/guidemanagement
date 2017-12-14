@@ -13,7 +13,7 @@
 
 <body ng-app="myApp" class="bg-light text-dark">
 	<div ng-controller="myCtrl">
-        <input id="Ankunft" min="0" max="100" ng-model="ankunft" type="range" step="1" ng-change="setNewAnkunft()"/>
+        <input id="Ankunft" min="1" max="100" ng-model="ankunft" type="range" step="1" ng-change="setNewAnkunft()"/>
         <label for="Ankunft">{{ankunft}}</label>
 		<button ng-click="startNewRouteWorker()">Start new Route worker</button>
 	</div>

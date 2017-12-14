@@ -142,16 +142,7 @@ function finishRoute() {
         if (this.readyState == 4 && this.status == 200) {
             if(this.status == 200) {
                 var message = this.responseText;
-                if(message == "1") {
-                    postMessage({type: "route finished", routeID: myRoute.id});
-                }
-                else {
-                    console.log("******ERROR********");
-                    log("at finishRoute");
-                    log("Response: " + this.responseText);
-                    console.log(this);
-                    log("******END**********");
-                }
+                postMessage({type: "route finished", routeID: myRoute.id});
             }
             else {
                 console.log("******ERROR********");
