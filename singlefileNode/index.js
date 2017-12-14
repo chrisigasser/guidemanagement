@@ -343,5 +343,50 @@ app.post('/endStation', function (req, res) {
         console.log('oh no exception');
     }
 });
+
+app.post('/getCountOfStations', function (req, res) {
+    try {
+        allstationen = [];
+        if (req.body != undefined) {
+            var credentials = req.body.credentials;
+            MongoClient.connect(mongoUri, function (err, db) {
+                if (err) throw err;
+                db.collection("users").count({ username: credentials.username, pwd: credentials.pwd }, function (err, count) {
+                    if (err) throw err;
+                    if (count > 0) {
+                        db.collection("stationen").find({}).toArray(function (err, result) {
+                            if (err) {
+                                throw "Could not access the table in the database"
+                            }
+
+                            result.forEach(function (element) {
+                                allstationen.push(element);
+                            }, this);
+
+                            allstationen = allstationen.filter(filelem => { return filelem.name != "next = generated"; });
+                            var extracted = allstationen.map(e =>{
+                                var temp_return = {
+                                    name: e.name
+                                };
+                                temp_return.persons = e.visited.filter(f => {
+                                    return f.end == -1;
+                                }).length;
+                                return temp_return;
+                            });
+                            
+                            res.json(extracted);
+                        });
+                    } else {
+                        res.send('FAILED');
+                    }
+                    db.close();
+                });
+            });
+        }
+    } catch (error) {
+        console.log('oh no exception');
+    }
+});
+
 app.listen(3000);
 console.log("Server up and running on port 3000");
