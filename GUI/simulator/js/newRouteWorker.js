@@ -64,7 +64,7 @@ function startRoute() {
     xhttp.open("POST", serverURL+"/newRoute", true);
     xhttp.setRequestHeader("Content-type", "application/json");
     var obj = cloneCredentialsObject();
-    obj.starttime = Math.round(new Date().getTime() / 1000);;
+    obj.starttime = Math.round(new Date().getTime() / 1000);
     xhttp.send(JSON.stringify(obj));
 
 }

@@ -1,6 +1,7 @@
 var myRoute = undefined;
 var serverURL = undefined;
 var credentialObject = undefined;
+var runningStation = undefined;
 
 onmessage = function(data) {
     switch(data.data.type) {
@@ -20,14 +21,119 @@ onmessage = function(data) {
             start();
             log("Starting simulating to run around!");
             break;
+        case "station start":
+            startAtStation(data.data.station, data.data.duration);
+            log("Starting at station: " + data.data.station);
+            break;
     }
 }
 
 function start() {
-    for(var i = 0; i < 10000; i ++) {
-        console.log("hi there");
-    }
-    finishRoute();
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            if(this.status == 200) {
+                var message = JSON.parse(this.responseText);
+                if(message.length == 0) {
+                    finishRoute();
+                }
+                else {
+                    //var message = JSON.parse(this.responseText);
+                    gotoStation(message[0]);
+                }
+            }
+            else {
+                console.log("******ERROR********");
+                log("at start");
+                log("Response: " + this.responseText);
+                console.log(this);
+                log("******END**********");
+            }
+        }
+    };
+    xhttp.open("POST", serverURL+"/getStation", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    var obj = cloneCredentialsObject();
+    obj.runningRoute = myRoute.id;
+    xhttp.send(JSON.stringify(obj));
+}
+
+function gotoStation(stationName) {
+    postMessage({type: "station question", station: stationName});
+}
+
+function startAtStation(stationName, dauer) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            if(this.status == 200) {
+                if(this.responseText == "1") {
+                    runningStation = stationName;
+                    postMessage({type: "station start", station: stationName});
+                    log("Currently at station: " + runningStation);
+                    setTimeout(finishStation, dauer*1000);
+                }
+                else {
+                    console.log("******ERROR********");
+                    log("at startAtStation");
+                    log("Response != 1: " + this.responseText);
+                    console.log(this);
+                    log("******END**********");
+                }
+            }
+            else {
+                console.log("******ERROR********");
+                log("at startAtStation");
+                log("Response: " + this.responseText);
+                console.log(this);
+                log("******END**********");
+            }
+        }
+    };
+    xhttp.open("POST", serverURL+"/startStation", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    var obj = cloneCredentialsObject();
+    obj.routenID = myRoute.id;
+    obj.stationName = stationName;
+    obj.start = Math.round(new Date().getTime() / 1000);
+    xhttp.send(JSON.stringify(obj));
+}
+
+function finishStation() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            if(this.status == 200) {
+                if(this.responseText == "1") {
+                    postMessage({type: "station stop", station: runningStation});
+                    log("Finished at station: " + runningStation);
+                    runningStation = undefined;
+                    setTimeout(start, 100); //change here timeout between each start of station
+                }
+                else {
+                    console.log("******ERROR********");
+                    log("at finishStation");
+                    log("Response != 1: " + this.responseText);
+                    console.log(this);
+                    log("******END**********");
+                }
+            }
+            else {
+                console.log("******ERROR********");
+                log("at finishStation");
+                log("Response: " + this.responseText);
+                console.log(this);
+                log("******END**********");
+            }
+        }
+    };
+    xhttp.open("POST", serverURL+"/endStation", true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    var obj = cloneCredentialsObject();
+    obj.routenID = myRoute.id;
+    obj.stationName = runningStation;
+    obj.end = Math.round(new Date().getTime() / 1000);
+    xhttp.send(JSON.stringify(obj));
 }
 
 function finishRoute() {

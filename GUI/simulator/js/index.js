@@ -1,4 +1,44 @@
-﻿var app = angular.module('myApp', []);
+﻿var stationElements = [
+    {
+        "name" : "Arduino",
+        "waitingTime": 2,
+        "workingTime": 10,
+        "maxPeople": 3,
+        "current": 0
+    },
+    {
+        "name" : "Sharepoint",
+        "waitingTime": 3,
+        "workingTime": 8,
+        "maxPeople": 2,
+        "current": 0
+    },
+    {
+        "name" : "Diplomarbeiten",
+        "waitingTime": 6,
+        "workingTime": 15,
+        "maxPeople": 5,
+        "current": 0
+    },
+	{
+        "name" : "Videowall",
+        "waitingTime": 3,
+        "workingTime": 7,
+        "maxPeople": 2,
+        "current": 0
+    },
+	{
+        "name" : "App corner",
+        "waitingTime": 5,
+        "workingTime": 10,
+        "maxPeople": 15,
+        "current": 0
+    }
+];
+
+
+
+var app = angular.module('myApp', []);
 var serverURL = "http://localhost:3000";
 var baseURL = "/pre/simulator";
 
@@ -10,6 +50,7 @@ app.controller('myCtrl', ["$scope", "$http", "$timeout", function ($scope, $http
     $scope.ankunft = 5;
 
     $scope.startNewRouteWorker = function() {
+
         newRouteWorker = new Worker(baseURL+'/js/newRouteWorker.js');
         sendNewAnkunftToWorker($scope.ankunft);
         sendServerURLToWorker(serverURL);
@@ -34,13 +75,46 @@ app.controller('myCtrl', ["$scope", "$http", "$timeout", function ($scope, $http
         switch(data.data.type) {
             case "route finished":
                 console.log("Route finished successful!");
-
+                break;
+            case "station question":
+                var delay = getDelayForStation(data.data.station);
+                data.srcElement.postMessage({type: "station start", station: data.data.station, duration: delay});
+                break;
+            case "station start":
+                addPersonToStation(data.data.station);
+                break;
+            case "station stop":
+                removePersonFromStation(data.data.station);
                 break;
         }
     }
 
+    function getDelayForStation(stationName) {
+        var stationEl = stationElements.find((e) => {return e.name == stationName});
+        var time = stationEl.workingTime; //change here for change in time of station
+        time += parseInt(parseInt(stationEl.current)/parseInt(stationEl.maxPeople)) * parseInt(stationEl.waitingTime);
+        return time;
+    }
+
+    function addPersonToStation(stationName) {
+        stationElements.forEach((e) => {
+            if(e.name == stationName) {
+                e.current++;
+                console.log("Added Person to station!");
+            }
+        });
+    }
+
+    function removePersonFromStation(stationName) {
+        stationElements.forEach((e) => {
+            if(e.name == stationName) {
+                e.current--;
+                console.log("Removed Person to station!");
+            }
+        })
+    }
+
     $scope.setNewAnkunft = function() {
-        console.log($scope.ankunft);
         if(newRouteWorker != undefined) {
             sendNewAnkunftToWorker($scope.ankunft);
         }
