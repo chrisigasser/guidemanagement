@@ -13,14 +13,26 @@
 
 <body ng-app="myApp" class="bg-light text-dark">
 	<div ng-controller="myCtrl">
-        <input id="Ankunft" min="1" max="100" ng-model="ankunft" type="range" step="1" ng-change="setNewAnkunft()"/>
-        <label for="Ankunft">{{ankunft}}</label>
-        <button ng-click="startNewRouteWorker()">Start new Route worker</button>
-        <button ng-click="stopNewRouteWorker()">Stop new Route worker</button>
-        <label for="st_count">Laufende Stationen:</label>
-        <label id="st_count" ng-bind="runningStations"></label>
-        <label for="r_count">Laufende Routen:</label>
-        <label id="r_count" ng-bind="runningRoutes"></label>
+        <div>
+            <input id="Ankunft" min="1" max="100" ng-model="ankunft" type="range" step="1" ng-change="setNewAnkunft()"/>
+            <label for="Ankunft">{{ankunft}}</label>
+        </div>
+        <div>
+            <button ng-click="startNewRouteWorker()">Start new Route worker</button>
+            <button ng-click="stopNewRouteWorker()">Stop new Route worker</button>
+        </div>
+        <div>
+            <label>Laufende Stationen:</label>
+            <label ng-bind="runningStations"></label>
+        </div>
+        <div>
+            <label>Laufende Routen:</label>
+            <label ng-bind="runningRoutes"></label>
+        </div>
+        <div>
+            <label>Bereits abgeschlossene Routen:</label>
+            <label ng-bind="alrFinishedRoutes"></label>
+        </div>
 	</div>
 </body>
 </html>

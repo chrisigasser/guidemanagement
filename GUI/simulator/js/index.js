@@ -39,7 +39,7 @@
 
 
 var app = angular.module('myApp', []);
-var serverURL = "http://192.168.137.217:3000";
+var serverURL = "http://localhost:3000";
 var baseURL = "/pre/simulator";
 
 var credentialObject = {credentials: {username: "guide", pwd: "6a2200b0cc85d41f7e0d6e3194dc8f04eabb3a3f6d891b7c2c8b072787c0d80c"}};
@@ -53,6 +53,7 @@ app.controller('myCtrl', ["$scope", "$http", "$timeout", function ($scope, $http
 
     $scope.runningStations = 0;
     $scope.runningRoutes = 0;
+    $scope.alrFinishedRoutes = 0;
 
     $scope.stopNewRouteWorker = function() {
         if(newRouteWorker != undefined) {
@@ -90,6 +91,7 @@ app.controller('myCtrl', ["$scope", "$http", "$timeout", function ($scope, $http
             case "route finished":
                 $scope.$apply(() => {
                     $scope.runningRoutes-=1;
+                    $scope.alrFinishedRoutes += 1;
                 });
                 console.log("Route finished successful!");
                 break;
