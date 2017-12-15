@@ -40,7 +40,7 @@ exports.extractInfo = function (jsonArray) {
     return extracted;
 }
 exports.findRecommended = function (jsonArray, numberOfStationsToBeLoaded) {
-    console.log(jsonArray);
+    //console.log(jsonArray);
     var stationsFreeSpots;
     stationsFreeSpots = jsonArray.map(e => {
         var toadd = e;

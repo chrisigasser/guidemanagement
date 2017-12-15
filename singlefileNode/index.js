@@ -95,32 +95,15 @@ app.post('/getstation', function (req, res) {
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd }, function (err, count) {
                     if (err) throw err;
                     if (count > 0) {
-                        db.collection("stationen").find({}).toArray(function (err, result) {
+                        db.collection('stationen').find({name: {$ne: 'next = generated'}, visited: {$not: {$elemMatch: {routenID: req.body.runningRoute}}}}).toArray(function (err, result) {
                             if (err) throw err;
-                            if (req.body.runningRoute != undefined) {
-                                result.forEach(function (element) {
-                                    //console.log();
-                                    if (!element.visited.some(
-                                        function (e) {
-                                            return (e.routenID == req.body.runningRoute && e.end != -1);
-                                        }
-                                    )) {
-                                        allstationen.push(element);
-                                    }
-                                }, this);
-                            }
-                            else {
-                                result.forEach(function (element) {
-                                    allstationen.push(element);
-                                }, this);
-                            }
-                            allstationen = allstationen.filter(filelem => { return filelem.name != "next = generated"; });
-                            var extracted = Balancer.extractInfo(allstationen);
+                            
+                            var extracted = Balancer.extractInfo(result);
                             var withCurCount = [];
                             withCurCount = extracted.map(y => {
                                 var temp = y;
                                 //console.log(allstationen);
-                                var tobecounted = allstationen.find(tof => {
+                                var tobecounted = result.find(tof => {
                                     return tof.name == y.id;
                                 });
                                 temp.curpeople = tobecounted.visited.filter(function (x) { return (x.end == -1) }).length
@@ -245,21 +228,27 @@ app.post('/startStation', function (req, res) {
                                 db.collection("stationen").updateOne(myquery, newvalues, function (err, result) {
                                     if (err) throw err;
                                     //console.log('Station gestartet:' + result);
-                                });
 
-                                myquery = { _id: ObjectID(req.body.routenID) };
-                                newvalues = {
-                                    $push: {
-                                        reihenfolge: {
-                                            name: req.body.stationName
+
+
+                                    myquery = { _id: ObjectID(req.body.routenID) };
+                                    newvalues = {
+                                        $push: {
+                                            reihenfolge: {
+                                                name: req.body.stationName
+                                            }
                                         }
-                                    }
-                                };
+                                    };
+    
+                                    db.collection("routen").updateOne(myquery, newvalues, function (err, result) {
+                                        if (err) throw err;
 
-                                db.collection("routen").updateOne(myquery, newvalues, function (err, result) {
-                                    if (err) throw err;
+                                        res.send('1');
+                                    });
+
                                 });
-                                res.send('1');
+
+                                
                             },
                             (err) => {
                                 res.send('-1');
@@ -311,24 +300,28 @@ app.post('/endStation', function (req, res) {
             var credentials = req.body.credentials;
             //console.log(req.body);
             MongoClient.connect(mongoUri, function (err, db) {
-                if (err) throw err;
+                if (err) { console.log("Error occured(3)"); throw err;}
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd }, function (err, count) {
-                    if (err) throw err;
+                    if (err) { console.log("error occured(2)"); throw err; }
                     if (count > 0) {
                         getStationCount(
                             (count) => {
-                                count--;
                                 var myquery = { name: req.body.stationName, "visited.routenID": req.body.routenID };
                                 var newvalues = { $set: { "visited.$.end": req.body.end, "visited.$.atEnd": count } };
-                                //console.log(myquery);
-                                db.collection("stationen").updateOne(myquery, newvalues, function (err, result) {
-                                    if (err) throw err;
+                                //console.log(myquery.name + " set end " + req.body.end);
+                                db.collection("stationen").update(myquery, newvalues, function (err, result) {
+                                    if (err) {
+                                        console.log("error occured(1)");
+                                        throw err;
+                                    } 
+                                    //console.log("Sending normal response lines changed: " + result);
+                                    res.send('1');
                                     //console.log('Station beendet:' + result);
                                 });
-                                res.send('1');
                             },
                             (err) => {
                                 //todo on error
+                                console.log("TODO");
                             },
                             req.body.stationName, db);
 
@@ -339,7 +332,11 @@ app.post('/endStation', function (req, res) {
                 });
             });
         }
+        else {
+            console.log("No body send!");
+        }
     } catch (error) {
+        res.send('FAILED');
         console.log('oh no exception');
     }
 });
