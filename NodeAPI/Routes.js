@@ -1,4 +1,4 @@
+var authenticate = require('./controllers/authenticate');
 module.exports = function(app){
-    var users = require('./controllers/users');
     app.post('/checkAuthentification', users.authenticate);
 }
