@@ -61,7 +61,8 @@ exports.startStation = function (req, res) {
                             req.body.stationName, db);
                     }
                     else {
-                        res.send('-1');
+                        res.status(401);
+                        res.send('FAILED');
                     }
                 });
             });
@@ -151,6 +152,8 @@ exports.getstation = function (req, res) {
                             });
                             res.send(toreturn);
                         });
+                    } else {
+                        res.send("FAILED");
                     }
                 });
             });
