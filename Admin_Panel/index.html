@@ -9,10 +9,56 @@
     <script src="lib/bootstrap.min.js"></script>
     <link rel="stylesheet" href="lib/bootstrap.min.css">
 	    <link rel="stylesheet" href="style/style.css">
-
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 	
 	
     <title>Guidemanagement Admin Panel</title>
+	
+	
+	
+	
+	
+	
+	
+	<script>
+window.onload = function() {
+
+var pidata = [{
+		type: "pie",
+		startAngle: 240,
+		yValueFormatString: "##0",
+		indexLabel: "{label} {y}",
+		dataPoints: [
+			{y: 120, label: "frei"},
+			{y: 70, label: "belegt"}
+		]
+	}];
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	data: pidata
+});
+
+x();
+
+function x() {
+chart.render();
+pidata[0].dataPoints[0].y++;
+console.log(pidata[0].dataPoints[0].y);
+setTimeout(x, 1000);
+}
+
+
+}
+</script>
+	
+	
+	
+	
+	
+	
+	
+	
   </head>
   <body>
 
@@ -41,12 +87,81 @@
 			
 			<div class="row"> 
 			
-						<div style="background-image: url(./src/Plan.jpg); height:500px;" class="col-6"> 
-							&nbsp;
+						<div class="col-8"> 
+							<img style="width: 100%;" src="./src/Plan.jpg">
 						</div>
 			
-						<div class="col-6 bg-info"> 
-						asdfdf
+						<div class="col-4 pre-scrollable"> 
+							
+							<table class="table">
+					  <thead>
+						<tr>
+						  <th scope="col">Name</th>
+						  <th scope="col">Count</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <th scope="row">Sharepoint</th>
+						  <td>5</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">LangerVideowallName</th>
+						  <td>0</td>
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr><tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr><tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+					  </tbody>
+					</table>
+						
+						
 						</div>
 			
 			
@@ -54,12 +169,27 @@
 			
 			<div class="row"> 
 			
-					<div class="col-6 bg-warning"> 
-						asfasdf
+					<div class="col-4"> 
+						
+		
+									 
+							<div class="card">
+						  <div class="card-body">
+							<h5 class="card-title">Guides</h5>
+							<p class="card-text">
+							<label>Belegt: 100</label>
+							<br>
+							<label>Frei: 0</label>
+							</p>
+						  </div>
+						</div>
+				 
+				
 					</div>
 			
-					<div class="col-6 bg-danger"> 
-						asdfsdfas
+					<div class="col-8"> 
+						<div id="chartContainer" style=" width: 100%;"></div>
+
 					</div>
 			
 			
