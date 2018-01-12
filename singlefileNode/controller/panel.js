@@ -36,8 +36,55 @@ exports.currunningRoutes = function (req, res) {
         console.log('oh no exception');
     }
 }
+//working
 exports.curTimeAtStations = function (req, res) {
-    //todo implement
+    try {
+        if (req.body != undefined) {
+            var credentials = req.body.credentials;
+
+            MongoClient.connect(mongoUri, function (err, db) {
+                if (err) throw err;
+                db.collection("users").count({ username: credentials.username, pwd: credentials.pwd, role: 'admin' }, function (err, ucount) {
+                    if (err) throw err;
+                    if (ucount > 0) {
+                        db.collection("stationen").find().toArray(function (err, result) {
+                            if (err) {
+                                throw "Could not access the table in the database"
+                            }
+                            var allstationen = [];
+                            result.forEach(function (element) {
+                                allstationen.push(element);
+                            }, this);
+
+                            var toreturn = allstationen.map(
+                                mapelem => {
+                                    var mapret = {
+                                        name: mapelem.name
+                                    };
+                                    if (mapelem.visited == undefined || mapelem.visited.length <= 0) {
+                                        mapret.curtime = 0
+                                    } else {
+                                        if (mapelem.visited[0] == undefined || mapelem.visited[0].start == undefined || mapelem.visited[0].end == undefined)
+                                            mapret.curtime = 0
+                                        else
+                                            mapret.curtime = mapelem.visited[0].end - mapelem.visited[0].start;
+                                    }
+                                    return mapret;
+                                }
+                            );
+
+                            res.json(toreturn);
+                        });
+                    } else {
+                        res.send('FAILED');
+                    }
+                });
+            });
+        }
+    } catch (error) {
+        console.log('oh no exception');
+        res.send("FAILED");
+    }
 }
 exports.ohShitMyBallz = function (req, res) {
     //todo implement
@@ -53,7 +100,7 @@ exports.generateGuides = function (req, res) {
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd, role: 'admin' }, function (err, ucount) {
                     if (err) throw err;
                     if (ucount > 0) {
-                        db.collection("users").deleteMany({role: 'guide'}, function (err, r) {
+                        db.collection("users").deleteMany({ role: 'guide' }, function (err, r) {
                             if (err) throw err;
                             createRandomUsers(
                                 (generatedUsers) => {
@@ -70,7 +117,7 @@ exports.generateGuides = function (req, res) {
                                 pwdnamelength,
                                 db
                             );
-                          });
+                        });
                     } else {
                         res.send('FAILED');
                     }
@@ -93,7 +140,7 @@ exports.getGuides = function (req, res) {
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd, role: 'admin' }, function (err, ucount) {
                     if (err) throw err;
                     if (ucount > 0) {
-                        db.collection("users").find({role: 'guide'}).toArray(function (err, result) {
+                        db.collection("users").find({ role: 'guide' }).toArray(function (err, result) {
                             if (err) {
                                 throw "Could not access the table in the database"
                             }
@@ -104,10 +151,10 @@ exports.getGuides = function (req, res) {
 
                             allguides = allguides.map(
                                 mapelem => {
-                                    return {username: mapelem.username, pwd: mapelem.pwdblank};
+                                    return { username: mapelem.username, pwd: mapelem.pwdblank };
                                 }
                             );
-                            
+
                             res.json(allguides);
                         });
                     } else {
@@ -132,13 +179,13 @@ exports.guideAuslastung = function (req, res) {
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd, role: 'admin' }, function (err, ucount) {
                     if (err) throw err;
                     if (ucount > 0) {
-                        db.collection("users").count({role: 'guide' }, function (err, gcount) {
+                        db.collection("users").count({ role: 'guide' }, function (err, gcount) {
                             if (err) throw err;
-                            db.collection("routen").count({end:-1}, function (err, rcount) {
+                            db.collection("routen").count({ end: -1 }, function (err, rcount) {
                                 if (err) throw err;
                                 res.send({
                                     belegt: rcount,
-                                    frei: gcount-rcount
+                                    frei: gcount - rcount
                                 });
                             });
                         });
@@ -154,23 +201,23 @@ exports.guideAuslastung = function (req, res) {
     }
 }
 
-function createRandomUsers(toCallOnSuccess, toCallOnError, numberOfGuidesToBeGenerated,usernameLength,pwdLength, db) {
+function createRandomUsers(toCallOnSuccess, toCallOnError, numberOfGuidesToBeGenerated, usernameLength, pwdLength, db) {
     if (numberOfGuidesToBeGenerated == undefined || numberOfGuidesToBeGenerated <= 0) {
         toCallOnError();
-    } else if (usernameLength == undefined || usernameLength <=1){
+    } else if (usernameLength == undefined || usernameLength <= 1) {
         toCallOnError();
-    } else if (pwdLength == undefined || pwdLength <=1){
+    } else if (pwdLength == undefined || pwdLength <= 1) {
         toCallOnError();
     } else {
         var generatedUsers = [];
-        for (i = 0; i < numberOfGuidesToBeGenerated; i++) { 
+        for (i = 0; i < numberOfGuidesToBeGenerated; i++) {
             var pwd = randomstring.generate(pwdLength);
             generatedUsers.push(
                 {
-                    "username" : randomstring.generate(usernameLength),
-                    "pwd" : sha256(pwd),
+                    "username": randomstring.generate(usernameLength),
+                    "pwd": sha256(pwd),
                     "pwdblank": pwd,
-                    "role" : "guide"
+                    "role": "guide"
                 }
             );
         }
