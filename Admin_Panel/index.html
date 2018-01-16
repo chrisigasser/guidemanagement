@@ -3,17 +3,205 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	
+	    <script src="lib/jquery-latest.js"></script>
+    <script src="lib/popper.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+	    <link rel="stylesheet" href="style/style.css">
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	
+	
     <title>Guidemanagement Admin Panel</title>
+	
+	
+	
+	
+	
+	
+	
+	<script>
+window.onload = function() {
+
+var pidata = [{
+		type: "pie",
+		startAngle: 240,
+		yValueFormatString: "##0",
+		indexLabel: "{label} {y}",
+		dataPoints: [
+			{y: 120, label: "frei"},
+			{y: 70, label: "belegt"}
+		]
+	}];
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	data: pidata
+});
+
+x();
+
+function x() {
+chart.render();
+pidata[0].dataPoints[0].y++;
+console.log(pidata[0].dataPoints[0].y);
+setTimeout(x, 1000);
+}
+
+
+}
+</script>
+	
+	
+	
+	
+	
+	
+	
+	
   </head>
   <body>
-      <div name="sidebar"><a>Overview</a><a>Users</a><a>Settings</a><a>Beamer</a></div>
-      <div name="content">
-        <div name="heatmap"></div>
-        <div name="heatmap_Data"></div>
-        <div name="Guides">
-          <div name="guides_data"></div>
-          <div name="guides_pie"></div>
-        </div>
-      </div>
+
+
+  <div class="container-fluid">
+    <div class="row">
+        <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
+			<ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="index.html">Overview</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="users.html">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html">Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="beamer.html">Beamer</a>
+                </li>
+            </ul>
+        </nav>
+		
+        <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
+			<div class="container-fluid"> 
+			
+			<div class="row"> 
+			
+						<div class="col-8"> 
+							<img style="width: 100%;" src="./src/Plan.jpg">
+						</div>
+			
+						<div class="col-4 pre-scrollable"> 
+							
+							<table class="table">
+					  <thead>
+						<tr>
+						  <th scope="col">Name</th>
+						  <th scope="col">Count</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <th scope="row">Sharepoint</th>
+						  <td>5</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">LangerVideowallName</th>
+						  <td>0</td>
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr><tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr><tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+						<tr>
+						  <th scope="row">Arduino</th>
+						  <td>33</td>
+						  
+						</tr>
+					  </tbody>
+					</table>
+						
+						
+						</div>
+			
+			
+			</div>
+			
+			<div class="row"> 
+			
+					<div class="col-4"> 
+						
+		
+									 
+							<div class="card">
+						  <div class="card-body">
+							<h5 class="card-title">Guides</h5>
+							<p class="card-text">
+							<label>Belegt: 100</label>
+							<br>
+							<label>Frei: 0</label>
+							</p>
+						  </div>
+						</div>
+				 
+				
+					</div>
+			
+					<div class="col-8"> 
+						<div id="chartContainer" style=" width: 100%;"></div>
+
+					</div>
+			
+			
+			</div>
+			
+			
+			</div>
+			
+			
+			
+		</main>
+</div>
+	</div>
   </body>
 </html>
