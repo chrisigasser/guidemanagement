@@ -1,0 +1,68 @@
+var baseURL = "http://192.168.137.181:3000";
+var heatmapInstance;
+var maxToSet = 15;
+var data = [
+    { x: 239, y: 144, value: 5, name: "Arduino"},
+    { x: 890, y: 150, value: 10, name: "Diplomarbeiten"},
+    { x: 1067, y: 441, value: 0, name: "Sharepoint"},
+    { x: 915, y: 667, value: 0, name: "App corner"},
+    { x: 245, y: 670, value: 0, name: "Videowall"},
+];
+var credentialObject = {credentials: {username: "admin", pwd: "6a2200b0cc85d41f7e0d6e3194dc8f04eabb3a3f6d891b7c2c8b072787c0d80c"}};
+var app = angular.module('myApp', []);
+app.controller('ht_ctrl', function($scope, $http) {
+    
+    $scope.init = function() {
+        generate();
+        getData();
+    }
+    function getData() {
+        console.log("Fetching data");
+        $http.post(baseURL + "/getCountOfStations", credentialObject)
+        .then(
+            function mySuccess(response) {
+                console.log(response.data);
+                var data = response.data;
+                data.forEach((e) => {
+                    changeData(e.name, e.persons);
+                });
+                setData();
+                setTimeout(getData, 400);
+            },
+            function myError(response) {
+                console.log("Error on contacting server!");
+                setTimeout(getData, 200);
+            }
+        );
+    }
+});
+
+
+function onStart() {
+    generate();
+    start();
+}
+
+function generate() {
+    heatmapInstance = h337.create({
+        container: document.getElementById('heatMap'),
+        radius: 400
+    });
+
+    
+    heatmapInstance.setData({
+        max: maxToSet,
+        data: []
+    });
+}
+function changeData(name, value) {
+    console.log(value + " in " + name);
+    var ob = data.find((e) => {
+        return e.name == name
+    });
+    ob.value = value;
+}
+
+function setData() {
+    heatmapInstance.setData({max: maxToSet, data: data});
+}

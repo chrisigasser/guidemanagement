@@ -8,9 +8,15 @@
     <script src="lib/popper.min.js"></script>
     <script src="lib/bootstrap.min.js"></script>
     <link rel="stylesheet" href="lib/bootstrap.min.css">
-	    <link rel="stylesheet" href="style/style.css">
+			<link rel="stylesheet" href="style/style.css">
+			<script type="text/javascript" src="./lib/build/heatmap.js"></script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-	
+<script src="lib/angular.min.js"></script>
+<script src="lib/angular-route.js"></script>
+<script src="lib/angular-cookies.js"></script>
+<script type="text/javascript" src="lib/functions_cryptography.js"></script> 
+<meta name="mobile-web-app-capable" content="yes">
+<script src="lib/heatmap.js"></script>
 	
     <title>Guidemanagement Admin Panel</title>
 	
@@ -60,7 +66,7 @@ setTimeout(x, 1000);
 	
 	
   </head>
-  <body>
+  <body ng-app="myApp">
 
 
   <div class="container-fluid">
@@ -87,7 +93,7 @@ setTimeout(x, 1000);
 			
 			<div class="row"> 
 			
-						<div class="col-8"> 
+						<div id="heatMap" ng-controller="ht_ctrl" class="col-8" data-ng-init="init()"> 
 							<img style="width: 100%;" src="./src/Plan.jpg">
 						</div>
 			
