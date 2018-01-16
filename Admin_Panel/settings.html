@@ -4,20 +4,26 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	    <script src="lib/jquery-latest.js"></script>
+    <script src="lib/jquery-latest.js"></script>
     <script src="lib/popper.min.js"></script>
     <script src="lib/bootstrap.min.js"></script>
     <link rel="stylesheet" href="lib/bootstrap.min.css">
-	    <link rel="stylesheet" href="style/style.css">
+			<link rel="stylesheet" href="style/style.css">
+<script src="lib/angular.min.js"></script>
+<script src="lib/angular-route.js"></script>
+<script src="lib/angular-cookies.js"></script>
+<script type="text/javascript" src="lib/functions_cryptography.js"></script> 
+<meta name="mobile-web-app-capable" content="yes">
+<script src="lib/settings.js"></script>
 
 	
 	
     <title>Guidemanagement Admin Panel</title>
   </head>
-  <body>
+  <body ng-app="myApp">
 
 
-  <div class="container-fluid">
+  <div class="container-fluid" ng-controller="myCtrl">
     <div class="row">
         <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
 			<ul class="nav nav-pills flex-column">
@@ -40,7 +46,30 @@
 		
         <main role="main" class="col-sm-9 ml-sm-auto col-md-10 pt-3">
 		
-		<button style="width:500px; height:500px;" type="button" class="btn btn-danger">NOT-AUS</button>
+        <button style="width:500px; height:500px;" type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">NOT-AUS</button>
+        
+
+        <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+<!-- Modal content-->
+<div class="modal-content">
+<div class="modal-header">
+    <h4 class="modal-title">QUESTION</h4>
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+</div>
+<div class="modal-body">
+<p>Are you scared and want to quit?</p>
+</div>
+<div class="modal-footer">
+<button type="button" ng-click="panicPanicPanic()" class="btn btn-default" data-dismiss="modal">Yes</button>
+<button type="button" class="btn btn-primary" data-dismiss="modal">NO</button>
+</div>
+</div>
+
+</div>
+</div>
 </main>
 </div>
 	</div>

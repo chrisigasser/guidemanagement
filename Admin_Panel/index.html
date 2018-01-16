@@ -10,54 +10,15 @@
     <link rel="stylesheet" href="lib/bootstrap.min.css">
 			<link rel="stylesheet" href="style/style.css">
 			<script type="text/javascript" src="./lib/build/heatmap.js"></script>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="lib/canvasjs.min.js"></script>
 <script src="lib/angular.min.js"></script>
 <script src="lib/angular-route.js"></script>
 <script src="lib/angular-cookies.js"></script>
 <script type="text/javascript" src="lib/functions_cryptography.js"></script> 
 <meta name="mobile-web-app-capable" content="yes">
-<script src="lib/heatmap.js"></script>
+<script src="lib/overview.js"></script>
 	
     <title>Guidemanagement Admin Panel</title>
-	
-	
-	
-	
-	
-	
-	
-	<script>
-window.onload = function() {
-
-var pidata = [{
-		type: "pie",
-		startAngle: 240,
-		yValueFormatString: "##0",
-		indexLabel: "{label} {y}",
-		dataPoints: [
-			{y: 120, label: "frei"},
-			{y: 70, label: "belegt"}
-		]
-	}];
-
-var chart = new CanvasJS.Chart("chartContainer", {
-	animationEnabled: true,
-	data: pidata
-});
-
-x();
-
-function x() {
-chart.render();
-pidata[0].dataPoints[0].y++;
-console.log(pidata[0].dataPoints[0].y);
-setTimeout(x, 1000);
-}
-
-
-}
-</script>
-	
 	
 	
 	
@@ -69,7 +30,7 @@ setTimeout(x, 1000);
   <body ng-app="myApp">
 
 
-  <div class="container-fluid">
+  <div class="container-fluid" ng-controller="ht_ctrl">
     <div class="row">
         <nav class="col-sm-3 col-md-2 d-none d-sm-block bg-light sidebar">
 			<ul class="nav nav-pills flex-column">
@@ -93,7 +54,7 @@ setTimeout(x, 1000);
 			
 			<div class="row"> 
 			
-						<div id="heatMap" ng-controller="ht_ctrl" class="col-8" data-ng-init="init()"> 
+						<div id="heatMap"  class="col-8" data-ng-init="init()"> 
 							<img style="width: 100%;" src="./src/Plan.jpg">
 						</div>
 			
@@ -107,63 +68,10 @@ setTimeout(x, 1000);
 						</tr>
 					  </thead>
 					  <tbody>
-						<tr>
-						  <th scope="row">Sharepoint</th>
-						  <td>5</td>
-						  
-						</tr>
-						<tr>
-						  <th scope="row">Arduino</th>
-						  <td>33</td>
-						  
-						</tr>
-						<tr>
-						  <th scope="row">LangerVideowallName</th>
-						  <td>0</td>
-						</tr>
-						<tr>
-						  <th scope="row">Arduino</th>
-						  <td>33</td>
-						  
-						</tr><tr>
-						  <th scope="row">Arduino</th>
-						  <td>33</td>
-						  
-						</tr><tr>
-						  <th scope="row">Arduino</th>
-						  <td>33</td>
-						  
-						</tr>
-						<tr>
-						  <th scope="row">Arduino</th>
-						  <td>33</td>
-						  
-						</tr>
-						<tr>
-						  <th scope="row">Arduino</th>
-						  <td>33</td>
-						  
-						</tr>
-						<tr>
-						  <th scope="row">Arduino</th>
-						  <td>33</td>
-						  
-						</tr>
-						<tr>
-						  <th scope="row">Arduino</th>
-						  <td>33</td>
-						  
-						</tr>
-						<tr>
-						  <th scope="row">Arduino</th>
-						  <td>33</td>
-						  
-						</tr>
-						<tr>
-						  <th scope="row">Arduino</th>
-						  <td>33</td>
-						  
-						</tr>
+								<tr scope="row" ng-repeat="x in stationCount">
+										<th>{{x.name}}</td>
+										<td>{{x.persons}}</td>
+								</tr>
 					  </tbody>
 					</table>
 						
@@ -183,9 +91,9 @@ setTimeout(x, 1000);
 						  <div class="card-body">
 							<h5 class="card-title">Guides</h5>
 							<p class="card-text">
-							<label>Belegt: 100</label>
+							<label>belegt: {{guidesBelegt}}</label>
 							<br>
-							<label>Frei: 0</label>
+							<label>frei: {{guidesFrei}}</label>
 							</p>
 						  </div>
 						</div>

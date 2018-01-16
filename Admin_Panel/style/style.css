@@ -25,3 +25,9 @@
 .sidebar .nav-link {
     border-radius: 0;
 }
+
+@media print {
+    .removeOnPrint {
+        display:none;
+    }
+}
