@@ -15,6 +15,7 @@ var cors = require('cors');
 app.use(cors());
 app.use(bodyParser.json());
 
+var isPanic = false;
 
 app.post('/checkAuthentification', authenticate.checkAuthentication);
 
