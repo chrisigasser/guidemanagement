@@ -8,15 +8,49 @@ var data = [
     { x: 915, y: 667, value: 0, name: "App corner"},
     { x: 245, y: 670, value: 0, name: "Videowall"},
 ];
-var credentialObject = {credentials: {username: "admin", pwd: "6a2200b0cc85d41f7e0d6e3194dc8f04eabb3a3f6d891b7c2c8b072787c0d80c"}};
+var credentialObject = undefined;
 var app = angular.module('myApp', []);
 
 
 
+app.factory('LoginCookieService', ["$cookies", "$http", function ($cookies, $http) {
+    return {
+        tryLoadOfCookie: function (success, error, callBeforeRequest) {
+            credentialObject = $cookies.get("cred");
+            if (credentialObject != undefined) {
+                try {
+                    credentialObject = JSON.parse(credentialObject);
+                    if (callBeforeRequest != undefined)
+                        callBeforeRequest();
+
+                    $http.post(baseURL + "/checkAuthentificationAdmin", credentialObject)
+                    .then(success, error);
+                }
+                catch (error) {
+                    console.log(error);
+                }
+			}
+        }
+    };
+}]);
 
 
-
-app.controller('ht_ctrl', function($scope, $http) {
+app.controller('ht_ctrl', ['LoginCookieService',"$scope", "$http", "$timeout", "$location", "$cookies", function (LoginCookieService, $scope, $http, $timeout, $location, $cookies) {
+    LoginCookieService.tryLoadOfCookie(
+        (response) => {
+            if (response.data != "PASSED") {
+                alert("invalid pwd");
+            }
+        },
+        (response) => {
+            alert("not reachable");
+           alert("Error occured during contacting server; Code: " + response.status);
+        },
+        () => {
+            console.log("Probiere automatisches Login");
+        }
+        );
+    
     $scope.stationCount = [];
     var pidata = [{
         type: "pie",
@@ -86,7 +120,7 @@ app.controller('ht_ctrl', function($scope, $http) {
             }
         );
     }
-});
+}]);
 
 
 

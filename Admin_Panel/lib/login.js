@@ -1,6 +1,7 @@
 var baseURL = "http://192.168.137.181:3000";
 
 var credentialObject = undefined;
+var baseLocation = "/admin";
 var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
 
 
@@ -26,13 +27,14 @@ app.factory('LoginCookieService', ["$cookies", "$http", function ($cookies, $htt
 }]);
 
 
-
-
 app.controller('myCtrl', ['LoginCookieService',"$scope", "$http", "$timeout", "$location", "$cookies", function (LoginCookieService, $scope, $http, $timeout, $location, $cookies) {
     LoginCookieService.tryLoadOfCookie(
         (response) => {
             if (response.data != "PASSED") {
                 alert("invalid pwd");
+            }
+            else {
+                loadMainPage();
             }
         },
         (response) => {
@@ -43,44 +45,36 @@ app.controller('myCtrl', ['LoginCookieService',"$scope", "$http", "$timeout", "$
             console.log("Probiere automatisches Login");
         }
         );
-
-
-    $scope.allGuides = [];
     
-    $scope.getData = function() {
-        console.log("Fetching data");
-        $http.post(baseURL + "/getGuides", credentialObject)
-        .then(
-            function mySuccess(response) {
-                $scope.allGuides = response.data;
-            },
-            function myError(response) {
-                alert("Error on contacting server!");
-                setTimeout(getData, 200);
-            }
-        );
-    }
-
-    $scope.generateNewOnes = function() {
-        $scope.allGuides = []
-        console.log("Getting new ones");
-        var newObject = cloneCredentialsObject();
-        newObject.count = 200;
-        $http.post(baseURL + "/generateGuides", newObject)
-        .then(
-            function mySuccess(response) {
-                if(response.data == "OK") {
-                    setTimeout($scope.getData, 1000);
-                }
-                else {
-                    alert("Error on server");
-                }
-            },
-            function myError(response) {
-                alert("Error on contacting server!");
-            }
-        );
-    }
+    	$scope.checkLogin = function() {
+            var c = new Crypt();
+            var un = $scope.txt_user
+            var hPW = c.HASH.sha256($scope.txt_pwd).toString();
+            credentialObject = {"credentials": {"username": un, "pwd": hPW }};
+            console.log(credentialObject);
+            
+            
+            $http.post(baseURL + "/checkAuthentificationAdmin", credentialObject)
+                .then(
+                    function mySuccess(response) {
+                        if(response.data != "PASSED") {
+                            alert("invalid pwd");
+                        }
+                        else {
+                            $cookies.put("cred", JSON.stringify(credentialObject));
+                            loadMainPage();
+                        }
+                    },
+                    function myError(response) {
+                        alert("not reachable");
+                    }
+                );
+        }
+        
+        function loadMainPage() {
+            location.href = baseLocation+"/index.html";
+        }
+   
 }]);
 
 function cloneCredentialsObject() {
