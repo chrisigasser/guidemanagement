@@ -7,33 +7,293 @@
 	    <script src="lib/jquery-latest.js"></script>
     <script src="lib/popper.min.js"></script>
     <script src="lib/bootstrap.min.js"></script>
+		<script src="lib/angular.min.js"></script>
+    <script src="lib/angular-route.js"></script>
+    <script src="lib/angular-cookies.js"></script>
+    <script type="text/javascript" src="lib/functions_cryptography.js"></script> 
+		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+		<script type="text/javascript" src="./lib/build/heatmap.js"></script>
     <link rel="stylesheet" href="lib/bootstrap.min.css">
 	    <link rel="stylesheet" href="style/style.css">
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	
+		<script>
+				var baseURL = "http://192.168.137.189:3000";
+				var heatmapInstance;
+				var maxToSet = 15;
+				var data = [
+						{ x: 239, y: 144, value: 5, name: "Arduino"},
+						{ x: 890, y: 150, value: 10, name: "Diplomarbeiten"},
+						{ x: 1067, y: 441, value: 0, name: "Sharepoint"},
+						{ x: 915, y: 667, value: 0, name: "App corner"},
+						{ x: 245, y: 670, value: 0, name: "Videowall"},
+				];
 
+
+
+				var curr = "chart";
+				var GuideData = [["", ""], ["", 0]];
+				var GuideChart;
+				var ArduinoFuhrData = [["", ""], ["", 0]];
+				var ArduinoChart;
+				var DiplomarbeitenData = [["", ""], ["", 0]];
+				var DiplomarbeitenChart;
+				var SharepointData = [["", ""], ["", 0]];
+				var SharepointChart;
+				var AppCornerData = [["", ""], ["", 0]];
+				var AppCornerChart;
+				var VideowallData = [["", ""], ["", 0]];
+				var VideowallChart;
+
+
+				
+				var GuideOptions = {
+          title: 'Aktuelle Fuehrungen',
+					curveType: 'line',
+					legend: {position: 'none'}
+				};
+				var ArduinoOptions = {
+          title: 'Arduino',
+					curveType: 'line',
+					legend: {position: 'none'}
+				};
+				var DiplomarbeitOptions = {
+          title: 'Diplomarbeit',
+					curveType: 'line',
+					legend: {position: 'none'}
+				};
+				var SharepointOptions = {
+          title: 'Sharepoint',
+					curveType: 'line',
+					legend: {position: 'none'}
+				};
+				var AppCornerOptions = {
+          title: 'AppCorner',
+					curveType: 'line',
+					legend: {position: 'none'}
+				};
+				var VideowallOptions = {
+          title: 'Videowall',
+					curveType: 'line',
+					legend: {position: 'none'}
+        };
+				
+
+				function drawGuideChart() {
+					GuideChart = new google.visualization.LineChart(document.getElementById('chartContainer'));
+					GuideChart.draw(google.visualization.arrayToDataTable(GuideData), GuideOptions);
+				}
+				
+
+
+		function drawCharts() {
+			
+
+        ArduinoChart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+				ArduinoChart.draw(google.visualization.arrayToDataTable(ArduinoFuhrData), ArduinoOptions);
+				
+				DiplomarbeitenChart = new google.visualization.LineChart(document.getElementById('curve_chart1'));
+				DiplomarbeitenChart.draw(google.visualization.arrayToDataTable(DiplomarbeitenData), DiplomarbeitOptions);
+				
+				VideowallChart = new google.visualization.LineChart(document.getElementById('curve_chart2'));
+				VideowallChart.draw(google.visualization.arrayToDataTable(VideowallData), VideowallOptions);
+				
+				SharepointChart = new google.visualization.LineChart(document.getElementById('curve_chart3'));
+				SharepointChart.draw(google.visualization.arrayToDataTable(SharepointData), SharepointOptions);
+				
+				AppCornerChart = new google.visualization.LineChart(document.getElementById('curve_chart4'));
+        AppCornerChart.draw(google.visualization.arrayToDataTable(AppCornerData), AppCornerOptions);
+			}
+
+
+
+
+
+
+	function change() {
+		if(curr == "chart") {
+			curr = "heatmap";
+			document.getElementById('heatMapDiv').style.visibility='visible';
+			document.getElementById('aktDiv').style.visibility='hidden';
+			document.getElementById('chartDiv').style.visibility='hidden';
+		}
+		else if(curr == "heatmap") {
+			curr = "akt";
+			document.getElementById('heatMapDiv').style.visibility='hidden';
+			document.getElementById('aktDiv').style.visibility='visible';
+			document.getElementById('chartDiv').style.visibility='hidden';
+		}
+		else if(curr == "akt") {
+			curr = "chart";
+			document.getElementById('heatMapDiv').style.visibility='hidden';
+			document.getElementById('aktDiv').style.visibility='hidden';
+			document.getElementById('chartDiv').style.visibility='visible';
+		}
+
+		setTimeout(change, 6000);
+	}
+
+
+
+	var app = angular.module('myApp', []);
+	app.controller('myCtrl', ["$scope", "$http", "$timeout", "$location", function ($scope, $http, $timeout, $location) {
+		$scope.init = () => {
+				change();
+				initLocal();
+				generate();
+				getData();
+				getRoutesData();
+		}
+
+		
+function initLocal() {
+			google.charts.load('current', {'packages':['corechart']});
+			google.charts.setOnLoadCallback(start);
+
+
+}
+
+function start() {
+	getData();
+	getRoutesData();
+}
+
+		function getData() {
+        //console.log("Fetching data");
+        $http.post(baseURL + "/getCountOfStations", {})
+        .then(
+            function mySuccess(response) {
+                //console.log(response.data);
+                var data = response.data;
+                data.forEach((e) => {
+										switch(e.name) {
+											case "Arduino":
+											ArduinoFuhrData.push(["", e.persons]);
+												break;
+											case "Sharepoint":
+											SharepointData.push(["", e.persons]);
+												break;
+												case "Diplomarbeiten":
+												DiplomarbeitenData.push(["", e.persons]);
+												break;
+											case "Videowall":
+												VideowallData.push(["", e.persons]);
+												break;
+											case "App corner":
+												AppCornerData.push(["", e.persons]);
+												break;
+										}
+                    changeData(e.name, e.persons);
+								});
+								setData();
+								drawCharts();
+                setTimeout(getData, 400);
+            },
+            function myError(response) {
+                console.log("Error on contacting server!");
+                setTimeout(getData, 200);
+            }
+				);
+		}
+
+		function getRoutesData () {
+			$http.post(baseURL + "/currunningRoutes", {})
+        .then(
+            function mySuccess(response) {
+                console.log(response.data);
+								var data = response.data;
+								GuideData.push(["", response.data.currentlyRunning]);
+								drawGuideChart();
+								setTimeout(getRoutesData, 400);
+            },
+            function myError(response) {
+                console.log("Error on contacting server!");
+                setTimeout(getData, 200);
+            }
+        );
+		}
+
+		function generate() {
+    heatmapInstance = h337.create({
+        container: document.getElementById('heatMapDiv'),
+        radius: 400
+    });
+
+    
+    heatmapInstance.setData({
+        max: maxToSet,
+        data: []
+    });
+		}
+		function changeData(name, value) {
+			//	console.log(value + " in " + name);
+				var ob = data.find((e) => {
+						return e.name == name
+				});
+				ob.value = value;
+		}
+
+		function setData() {
+				heatmapInstance.setData({max: maxToSet, data: data});
+		}
+
+	}]);
+
+
+		</script>
 	
 	
     <title>Guidemanagement Admin Panel</title>
   </head>
-  <body>
-<div class="container-fluid"> 
+  <body ng-app="myApp" style="overflow: hidden">
+		<div ng-controller="myCtrl"  data-ng-init="init()">
+			<div id="heatMapDiv" style="width:50%; position:absolute; top:0px;">
+				<img style="height: 100%; width:100%;" src="./src/Plan.jpg">
+			</div>  
+			<div id="aktDiv" style="width:100%; height:100%; position:absolute; top:0px;">
+				<div id="chartContainer" style="height: 100%; width: 100%;"></div>
+			</div>
+		
+			<div id="chartDiv" class="container-fluid" style="width:100%; height:100%; position:absolute; top:0px;">
+				<div style="margin-top:2%;" class="row"> 
+			
+						<div class="col-6"> 
+							<div id="curve_chart">
+						</div></div>
+			
+						<div class="col-6"> 
+							<div  id="curve_chart1"></div>
 			
 			
-			<div class="row">
-				<div class="col-6">
-					<div class="row bg-success">
-						asdf
 					</div>
-					<div class="row bg-info">
-						asdf
 					</div>
-				</div>
-				<div class="col-6 bg-warning">
-				asdf
-				
-				</div>
+			
+			<div class="row" style="margin-top:2%;"> 
+			
+					<div class="col-6"> 
+						<div  id="curve_chart2">
+					</div></div>
+				 
+			
+					<div class="col-6"> 
+						<div  id="curve_chart3">
+					</div></div>
+			
 			
 			</div>
 			
-
+			<div class="row" style="margin-top:2%;"> 
+			
+					<div class="col-6"> 
+						<div  id="curve_chart4">
+					</div></div>
+				 
+			
+					<div class="col-6"> 
+						<div  id="curve_chart5">
+					</div></div>
+			
+			</div> 
+			</div>
   </body>
 </html>
