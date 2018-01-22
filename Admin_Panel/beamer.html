@@ -135,7 +135,7 @@
 
 
 
-	var app = angular.module('myApp', []);
+	var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
 	app.controller('myCtrl', ["$scope", "$http", "$timeout", "$location", function ($scope, $http, $timeout, $location) {
 		$scope.init = () => {
 				change();
@@ -168,18 +168,53 @@ function start() {
                 data.forEach((e) => {
 										switch(e.name) {
 											case "Arduino":
-											ArduinoFuhrData.push(["", e.persons]);
+												if(ArduinoFuhrData.length > 100) {
+													var x = ArduinoFuhrData.reverse();
+													var toKeep = x.pop();
+													x.pop();
+													x.push(toKeep);
+													ArduinoFuhrData = x.reverse();
+												}
+												ArduinoFuhrData.push(["", e.persons]);
 												break;
 											case "Sharepoint":
-											SharepointData.push(["", e.persons]);
+												if(SharepointData.length > 100) {
+													var x = SharepointData.reverse();
+													var toKeep = x.pop();
+													x.pop();
+													x.push(toKeep);
+													SharepointData = x.reverse();
+												}
+												SharepointData.push(["", e.persons]);
 												break;
 												case "Diplomarbeiten":
+												if(DiplomarbeitenData.length > 100) {
+													var x = DiplomarbeitenData.reverse();
+													var toKeep = x.pop();
+													x.pop();
+													x.push(toKeep);
+													DiplomarbeitenData = x.reverse();
+												}
 												DiplomarbeitenData.push(["", e.persons]);
 												break;
 											case "Videowall":
+												if(VideowallData.length > 100) {
+													var x = VideowallData.reverse();
+													var toKeep = x.pop();
+													x.pop();
+													x.push(toKeep);
+													VideowallData = x.reverse();
+												}
 												VideowallData.push(["", e.persons]);
 												break;
 											case "App corner":
+												if(AppCornerData.length > 100) {
+													var x = AppCornerData.reverse();
+													var toKeep = x.pop();
+													x.pop();
+													x.push(toKeep);
+													AppCornerData = x.reverse();
+												}
 												AppCornerData.push(["", e.persons]);
 												break;
 										}
@@ -202,6 +237,13 @@ function start() {
             function mySuccess(response) {
                 console.log(response.data);
 								var data = response.data;
+								if(GuideData.length > 100) {
+									var x = GuideData.reverse();
+									var toKeep = x.pop();
+									x.pop();
+									x.push(toKeep);
+									GuideData = x.reverse();
+								}
 								GuideData.push(["", response.data.currentlyRunning]);
 								drawGuideChart();
 								setTimeout(getRoutesData, 400);

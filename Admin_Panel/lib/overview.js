@@ -1,4 +1,4 @@
-var baseURL = "http://192.168.137.181:3000";
+var baseURL = "http://192.168.137.189:3000";
 var heatmapInstance;
 var maxToSet = 15;
 var data = [
@@ -9,7 +9,7 @@ var data = [
     { x: 245, y: 670, value: 0, name: "Videowall"},
 ];
 var credentialObject = undefined;
-var app = angular.module('myApp', []);
+var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
 
 
 
