@@ -1,5 +1,5 @@
 ﻿var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
-var baseURL = "http://localhost:3000";
+var baseURL = "http://192.168.137.189:3000";
 var nameOfStationWhichIsUsedForGenerateStation = "next = generated";
 
 var credentialObject = null;
@@ -367,7 +367,6 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
                             $scope.btnRouteStartStop = "Fuehrung starten";
                             started = false;
                             $cookies.remove("runningRoute");
-                            alert("Deine Fuehrung hat " + response.data + " Sekunden gedauert!");
                         }
                         else {
                             alert("Cannot finish route! Error!");
