@@ -145,12 +145,21 @@ exports.getstation = function (req, res) {
                                 temp.curpeople = tobecounted.visited.filter(function (x) { return (x.end == -1) }).length
                                 return temp;
                             });
+                            checkIfPanic(pe=>{
+                                var toreturn = Balancer.findRecommended(withCurCount, 2, true);
+                                toreturn = toreturn.map(mapelem => {
+                                    return mapelem.id;
+                                });
+                                res.send(toreturn);
+                            },npe=>{
+                                var toreturn = Balancer.findRecommended(withCurCount, 2, false);
+                                toreturn = toreturn.map(mapelem => {
+                                    return mapelem.id;
+                                });
+                                res.send(toreturn);
+                            },db);
                             //console.log(withCurCount);
-                            var toreturn = Balancer.findRecommended(withCurCount, 2);
-                            toreturn = toreturn.map(mapelem => {
-                                return mapelem.id;
-                            });
-                            res.send(toreturn);
+                            
                         });
                     } else {
                         res.send("FAILED");
@@ -167,12 +176,8 @@ exports.getCountOfStations = function (req, res) {
     try {
         allstationen = [];
         if (req.body != undefined) {
-            var credentials = req.body.credentials;
             MongoClient.connect(mongoUri, function (err, db) {
                 if (err) throw err;
-                db.collection("users").count({ username: credentials.username, pwd: credentials.pwd }, function (err, count) {
-                    if (err) throw err;
-                    if (count > 0) {
                         db.collection("stationen").find({}).toArray(function (err, result) {
                             if (err) {
                                 throw "Could not access the table in the database"
@@ -194,11 +199,7 @@ exports.getCountOfStations = function (req, res) {
                             });
                             
                             res.json(extracted);
-                        });
-                    } else {
-                        res.send('FAILED');
-                    }
-                    db.close();
+
                 });
             });
         }
@@ -274,3 +275,34 @@ function getStationCount(toCallOnSuccess, toCallOnError, stationName, db) {
         });
     }
 }
+function checkIfPanic(panicModeOn,panicModeOff, db) {
+        db.collection("panic").find({}, function (err, resultPanic) {
+            if (err) {
+                panicModeOff();
+            } else {
+                var panic = [];
+                resultPanic.forEach(function (element) {
+                        panic.push(element);
+                    }, this);
+                panic = panic.sort(a,b=>{
+                    return a.time-b.time;
+                });
+                var dif;
+                var ispanic = false;
+                for(i=0;i<(panic.length-1); i++){
+                    dif = panic[i] - panic[i+1];
+
+                    if(dif<0)
+                        dif=dif*-1;
+                    
+                    if(dif>0&&dif<10){
+                        ispanic = true;
+                    }
+                }
+                if(ispanic)
+                    panicModeOn();
+                else
+                    panicModeOff();
+            }
+        });
+    }

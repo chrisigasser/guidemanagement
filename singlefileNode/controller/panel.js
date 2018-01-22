@@ -7,28 +7,18 @@ var sha256 = require("sha256");
 const unamelength = 5;
 const pwdnamelength = 5;
 
-exports.createReport = function (req, res) {
-    //todo implement
-}
+
 //working
 exports.currunningRoutes = function (req, res) {
     try {
         if (req.body != undefined) {
-            var credentials = req.body.credentials;
             MongoClient.connect(mongoUri, function (err, db) {
                 if (err) throw err;
-                db.collection("users").count({ username: credentials.username, pwd: credentials.pwd, role: 'admin' }, function (err, ucount) {
+                var toreturn = { currentlyRunning: -1 };
+                db.collection("routen").count({ end: -1 }, function (err, count) {
                     if (err) throw err;
-                    if (ucount > 0) {
-                        var toreturn = { currentlyRunning: -1 };
-                        db.collection("routen").count({ end: -1 }, function (err, count) {
-                            if (err) throw err;
-                            toreturn.currentlyRunning = count;
-                            res.send(toreturn);
-                        });
-                    } else {
-                        res.send('FAILED');
-                    }
+                    toreturn.currentlyRunning = count;
+                    res.send(toreturn);
                 });
             });
         }
@@ -40,13 +30,8 @@ exports.currunningRoutes = function (req, res) {
 exports.curTimeAtStations = function (req, res) {
     try {
         if (req.body != undefined) {
-            var credentials = req.body.credentials;
-
             MongoClient.connect(mongoUri, function (err, db) {
                 if (err) throw err;
-                db.collection("users").count({ username: credentials.username, pwd: credentials.pwd, role: 'admin' }, function (err, ucount) {
-                    if (err) throw err;
-                    if (ucount > 0) {
                         db.collection("stationen").find().toArray(function (err, result) {
                             if (err) {
                                 throw "Could not access the table in the database"
@@ -75,6 +60,31 @@ exports.curTimeAtStations = function (req, res) {
 
                             res.json(toreturn);
                         });
+            });
+        }
+    } catch (error) {
+        console.log('oh no exception');
+        res.send("FAILED");
+    }
+}
+//working
+exports.ohShitMyBallz = function (req, res) {
+    try {
+        if (req.body != undefined) {
+            var credentials = req.body.credentials;
+            MongoClient.connect(mongoUri, function (err, db) {
+                if (err) throw err;
+                db.collection("users").count({ username: credentials.username, pwd: credentials.pwd, role: 'admin' }, function (err, ucount) {
+                    if (err) throw err;
+                    if (ucount > 0) {
+                        var myobj = {
+                            triggeredBy: credentials.username,
+                            time: Math.round(new Date().getTime())
+                        };
+                        db.collection("panic").insertOne(myobj, function (err, insertresult) {
+                            if (err) throw err;
+                            res.send('OK');
+                        });
                     } else {
                         res.send('FAILED');
                     }
@@ -85,9 +95,6 @@ exports.curTimeAtStations = function (req, res) {
         console.log('oh no exception');
         res.send("FAILED");
     }
-}
-exports.ohShitMyBallz = function (req, res) {
-    //todo implement
 }
 //working
 exports.generateGuides = function (req, res) {
@@ -133,13 +140,8 @@ exports.generateGuides = function (req, res) {
 exports.getGuides = function (req, res) {
     try {
         if (req.body != undefined) {
-            var credentials = req.body.credentials;
-
             MongoClient.connect(mongoUri, function (err, db) {
                 if (err) throw err;
-                db.collection("users").count({ username: credentials.username, pwd: credentials.pwd, role: 'admin' }, function (err, ucount) {
-                    if (err) throw err;
-                    if (ucount > 0) {
                         db.collection("users").find({ role: 'guide' }).toArray(function (err, result) {
                             if (err) {
                                 throw "Could not access the table in the database"
@@ -157,10 +159,6 @@ exports.getGuides = function (req, res) {
 
                             res.json(allguides);
                         });
-                    } else {
-                        res.send('FAILED');
-                    }
-                });
             });
         }
     } catch (error) {
@@ -176,9 +174,6 @@ exports.guideAuslastung = function (req, res) {
 
             MongoClient.connect(mongoUri, function (err, db) {
                 if (err) throw err;
-                db.collection("users").count({ username: credentials.username, pwd: credentials.pwd, role: 'admin' }, function (err, ucount) {
-                    if (err) throw err;
-                    if (ucount > 0) {
                         db.collection("users").count({ role: 'guide' }, function (err, gcount) {
                             if (err) throw err;
                             db.collection("routen").count({ end: -1 }, function (err, rcount) {
@@ -189,10 +184,6 @@ exports.guideAuslastung = function (req, res) {
                                 });
                             });
                         });
-                    } else {
-                        res.send('FAILED');
-                    }
-                });
             });
         }
     } catch (error) {
@@ -211,10 +202,16 @@ function createRandomUsers(toCallOnSuccess, toCallOnError, numberOfGuidesToBeGen
     } else {
         var generatedUsers = [];
         for (i = 0; i < numberOfGuidesToBeGenerated; i++) {
-            var pwd = randomstring.generate(pwdLength);
+            var pwd = randomstring.generate({
+                length: pwdLength,
+                charset: 'abcdefghijklmnpqrstuvwABCDEFGHILKLMNPQRSTUVW123456789'
+            });
             generatedUsers.push(
                 {
-                    "username": randomstring.generate(usernameLength),
+                    "username": randomstring.generate({
+                        length: usernameLength,
+                        charset: 'abcdefghijklmnpqrstuvwABCDEFGHILKLMNPQRSTUVW123456789'
+                    }),
                     "pwd": sha256(pwd),
                     "pwdblank": pwd,
                     "role": "guide"

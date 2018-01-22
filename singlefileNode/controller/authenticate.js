@@ -24,3 +24,25 @@ exports.checkAuthentication = function (req, res) {
         console.log('oh no exception');
     }
 }
+exports.checkAuthenticationAdmin = function (req, res) {
+    try {
+        if (req.body != undefined) {
+            var credentials = req.body.credentials;
+            MongoClient.connect(mongoUri, function (err, db) {
+                if (err) throw err;
+                db.collection("users").count({ username: credentials.username, pwd: credentials.pwd , role: 'admin' }, function (err, count) {
+                    if (err) throw err;
+                    if (count > 0) {
+                        res.send('PASSED');
+                    } else {
+                        res.send('FAILED');
+                    }
+                    db.close();
+                });
+            });
+        }
+        //res.send('FAILED');
+    } catch (error) {
+        console.log('oh no exception');
+    }
+}

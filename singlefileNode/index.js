@@ -10,6 +10,7 @@ var authenticate = require('./controller/authenticate');
 var route = require('./controller/route');
 var station = require('./controller/station');
 var panel = require('./controller/panel');
+var report = require('./controller/report');
 
 var cors = require('cors');
 app.use(cors());
@@ -18,6 +19,7 @@ app.use(bodyParser.json());
 var isPanic = false;
 
 app.post('/checkAuthentification', authenticate.checkAuthentication);
+app.post('/checkAuthentificationAdmin', authenticate.checkAuthenticationAdmin);
 
 app.post('/getstations', station.getstations);
 app.post('/getstation', station.getstation);
@@ -30,7 +32,9 @@ app.post('/endRoute', route.endRoute);
 
 app.post('/getCountOfStations', station.getCountOfStations);
 
-app.post('/createReport', panel.createReport);
+app.get('/getStationReport', report.getStationReport);
+app.get('/getRouteReport', report.getRouteReport);
+
 app.post('/currunningRoutes', panel.currunningRoutes);
 app.post('/curTimeAtStations', panel.curTimeAtStations);
 app.post('/generateGuides', panel.generateGuides);
