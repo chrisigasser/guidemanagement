@@ -145,19 +145,19 @@ exports.getstation = function (req, res) {
                                 temp.curpeople = tobecounted.visited.filter(function (x) { return (x.end == -1) }).length
                                 return temp;
                             });
-                            checkIfPanic(pe=>{
+                            //checkIfPanic(pe=>{
                                 var toreturn = Balancer.findRecommended(withCurCount, 2, true);
                                 toreturn = toreturn.map(mapelem => {
                                     return mapelem.id;
                                 });
                                 res.send(toreturn);
-                            },npe=>{
+                            /*},npe=>{
                                 var toreturn = Balancer.findRecommended(withCurCount, 2, false);
                                 toreturn = toreturn.map(mapelem => {
                                     return mapelem.id;
                                 });
                                 res.send(toreturn);
-                            },db);
+                            },db);*/
                             //console.log(withCurCount);
                             
                         });
@@ -278,13 +278,13 @@ function getStationCount(toCallOnSuccess, toCallOnError, stationName, db) {
 function checkIfPanic(panicModeOn,panicModeOff, db) {
         db.collection("panic").find({}, function (err, resultPanic) {
             if (err) {
-                panicModeOff();
+                panicModeOff("random");
             } else {
                 var panic = [];
                 resultPanic.forEach(function (element) {
                         panic.push(element);
                     }, this);
-                panic = panic.sort(a,b=>{
+                panic = panic.sort(function(a,b) {
                     return a.time-b.time;
                 });
                 var dif;
