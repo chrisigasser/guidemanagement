@@ -37,6 +37,16 @@ db.stationen.insert([
         "desc" : "Diplomarbeiten ansehen",
         "visited" : []
     },
+	    {
+        "name" : "Videowall",
+        "desc" : "Here you can see crazy things",
+        "visited" : []
+    },
+	    {
+        "name" : "App corner",
+        "desc" : "not recommended!",
+        "visited" : []
+    }
 
 ]);
 db.routen.drop();
