@@ -22,27 +22,27 @@
 				var heatmapInstance;
 				var maxToSet = 15;
 				var data = [
-						{ x: 239, y: 144, value: 5, name: "Arduino"},
-						{ x: 890, y: 150, value: 10, name: "Diplomarbeiten"},
-						{ x: 1067, y: 441, value: 0, name: "Sharepoint"},
-						{ x: 915, y: 667, value: 0, name: "App corner"},
-						{ x: 245, y: 670, value: 0, name: "Videowall"},
+					{ x: 193, y: 111, value: 5, name: "Arduino"},
+					{ x: 650, y: 115, value: 10, name: "Diplomarbeiten"},
+					{ x: 777, y: 320, value: 0, name: "Sharepoint"},
+					{ x: 674, y: 480, value: 0, name: "App corner"},
+					{ x: 169, y: 480, value: 0, name: "Videowall"},
 				];
 
 
 
 				var curr = "chart";
-				var GuideData = [["", ""], ["", 0]];
+				var GuideData = [["", ""]];
 				var GuideChart;
-				var ArduinoFuhrData = [["", ""], ["", 0]];
+				var ArduinoFuhrData = [["", ""]];
 				var ArduinoChart;
-				var DiplomarbeitenData = [["", ""], ["", 0]];
+				var DiplomarbeitenData = [["", ""]];
 				var DiplomarbeitenChart;
-				var SharepointData = [["", ""], ["", 0]];
+				var SharepointData = [["", ""]];
 				var SharepointChart;
-				var AppCornerData = [["", ""], ["", 0]];
+				var AppCornerData = [["", ""]];
 				var AppCornerChart;
-				var VideowallData = [["", ""], ["", 0]];
+				var VideowallData = [["", ""]];
 				var VideowallChart;
 
 
@@ -289,8 +289,8 @@ function start() {
   </head>
   <body ng-app="myApp" style="overflow: hidden">
 		<div ng-controller="myCtrl"  data-ng-init="init()">
-			<div id="heatMapDiv" style="width:50%; position:absolute; top:0px;">
-				<img style="height: 100%; width:100%;" src="./src/Plan.jpg">
+			<div id="heatMapDiv" style="width:900px; position:absolute; top:0px; margin-left: 400px; ">
+				<img style="width:100%;" src="./src/Plan.jpg">
 			</div>  
 			<div id="aktDiv" style="width:100%; height:100%; position:absolute; top:0px;">
 				<div id="chartContainer" style="height: 100%; width: 100%;"></div>

@@ -39,10 +39,10 @@
 
 
 var app = angular.module('myApp', []);
-var serverURL = "http://192.168.137.217:3000";
+var serverURL = "http://192.168.137.189:3000";
 var baseURL = "/pre/simulator";
 
-var credentialObject = {credentials: {username: "guide", pwd: "6a2200b0cc85d41f7e0d6e3194dc8f04eabb3a3f6d891b7c2c8b072787c0d80c"}};
+var credentialObject = {credentials: {username: "admin", pwd: "ac9689e2272427085e35b9d3e3e8bed88cb3434828b43b86fc0596cad4c6e270"}};
 
 var newRouteWorker = undefined;
 

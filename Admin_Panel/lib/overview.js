@@ -2,11 +2,11 @@ var baseURL = "http://192.168.137.189:3000";
 var heatmapInstance;
 var maxToSet = 15;
 var data = [
-    { x: 239, y: 144, value: 5, name: "Arduino"},
-    { x: 890, y: 150, value: 10, name: "Diplomarbeiten"},
-    { x: 1067, y: 441, value: 0, name: "Sharepoint"},
-    { x: 915, y: 667, value: 0, name: "App corner"},
-    { x: 245, y: 670, value: 0, name: "Videowall"},
+    { x: 193, y: 111, value: 5, name: "Arduino"},
+    { x: 650, y: 115, value: 10, name: "Diplomarbeiten"},
+    { x: 777, y: 320, value: 0, name: "Sharepoint"},
+    { x: 674, y: 480, value: 0, name: "App corner"},
+    { x: 169, y: 480, value: 0, name: "Videowall"},
 ];
 var credentialObject = undefined;
 var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
