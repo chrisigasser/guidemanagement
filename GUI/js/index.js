@@ -16,6 +16,10 @@ app.config(function($routeProvider) {
     })
 });
 
+app.config(function ($sceProvider) {
+    $sceProvider.enabled(false);
+});
+
 app.factory('LoginCookieService', ["$cookies", "$http", function ($cookies, $http) {
     return {
         tryLoadOfCookie: function (success, error, callBeforeRequest) {
