@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+   
+	
+	<script src="lib/jquery-latest.js"></script>
+    <script src="lib/popper.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="lib/bootstrap.min.css">
+	<link rel="stylesheet" href="style/login_style.css">
+
+	<script src="lib/angular.min.js"></script>
+    <script src="lib/angular-route.js"></script>
+    <script src="lib/angular-cookies.js"></script>
+    <script type="text/javascript" src="lib/functions_cryptography.js"></script> 
+    <script src="lib/login.js"></script>
+	
+    <title>Login</title>
+  </head>
+  <body style="width: 100%" ng-app="myApp">
+
+
+<!--Pulling Awesome Font -->
+<link href="lib/font-awesome.min.css" rel="stylesheet">
+
+<div style="width: 100%" ng-controller="myCtrl">
+    <div class="row" style="width: 20%; margin-left: 40%; margin-top: 5%">
+        <div class="col">
+            <div class="form-login">
+            <h4>Login</h4>
+            <input type="text" id="userName" ng-model="txt_user" class="form-control input-sm chat-input" placeholder="username" />
+            </br>
+            <input type="password" id="userPassword" ng-model="txt_pwd" class="form-control input-sm chat-input" placeholder="password" />
+            </br>
+            <div class="wrapper">
+            <span class="group-btn">     
+                <a href="#" class="btn btn-primary btn-md" ng-click="checkLogin();">login <i class="fa fa-sign-in"></i></a>
+            </span>
+            </div>
+            </div>
+        
+        </div>
+	
+		
+		
+		
+    </div>
+</div>
+  </body>
+</html>

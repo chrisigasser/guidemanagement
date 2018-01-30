@@ -1,0 +1,11 @@
+		<div class="login" >
+			<div class="form-signin" style="margin: 7%;">
+				<h2 class="form-signin-heading" style="margin-bottom: 6%;margin-left: 37%;">Login</h2>
+				<label for="inputEmail" class="sr-only">Username</label>
+				<input type="text" id="inputEmail" ng-model="txt_user" class="form-control" placeholder="Username" required autofocus>
+				<label for="inputPassword" class="sr-only">Password</label>
+				<input type="password" id="inputPassword" ng-model="txt_pwd"style="margin-top: 4%;" class="form-control" placeholder="Password" required>
+				<button class="btn btn-lg btn-info btn-block" style="margin-top: 7%;" id="btn_Login" ng-click="checkLogin();">Login</button>
+				<label id="lbl_status" ng-bind="auth_msg">&nbsp;</label>
+			</div>
+		</div>

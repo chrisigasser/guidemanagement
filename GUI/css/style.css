@@ -1,0 +1,85 @@
+textarea {
+    resize: none; 
+    }
+    
+    .card-body {
+        -ms-flex: 1 1 auto  ;
+        flex: 1 1 auto  ;
+        margin-left: 6%  ;
+        padding: 0rem  ;
+    }
+    
+    .card-header {
+      padding:0px  ;
+    }
+    
+    h3 {
+        margin-left: 1%  ;
+        font-size: 1.75rem  ;
+        margin-bottom: 5%  ;
+    }
+    
+    #finishedStation_btn{
+         width: 97%  ;
+         margin-top: 5%;
+    }
+    
+    #selectStation {
+        width: 97%  ;
+        margin-top: 1%  ;
+    }
+    
+    #finishedFuehrung_btn{
+        margin-top: 3%  ;
+        
+    }
+    
+    #startFuehrung_btn {
+        width: 97%  ;
+    }
+    
+    .form-signin {
+        margin: 10%  ;
+    }
+    
+    #btn_Login {
+    margin-top : 10%  ;
+    }
+    
+    .form-signin-heading {
+        margin-left: 36%  ;
+    }
+    
+    .login {
+        margin-top: 20%  ;
+        width: 90%;
+    }
+    
+    #inputEmail{
+        margin-bottom: 3%  ;
+    }
+    
+    h1 {
+        font-size: 2rem  ;
+        margin-left: 7%  ;
+    }
+    
+    body {
+        height: 100%;
+        width: 100%;
+    }
+
+    #mainDiv {
+        height: 100%;
+        width: 100%;
+
+    }    
+    .nav-link {
+        display: block;
+        margin-bottom: 1%  ;
+        padding-bottom: 0px  ;
+        padding-left: 0px  ;
+    }
+    label {
+        margin-bottom: 1%  ;
+    }
