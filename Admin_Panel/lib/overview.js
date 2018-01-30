@@ -1,4 +1,4 @@
-var baseURL = "http://192.168.137.189:3000";
+var baseURL = "http://192.169.2.253:3000";
 var heatmapInstance;
 var maxToSet = 15;
 var data = [
