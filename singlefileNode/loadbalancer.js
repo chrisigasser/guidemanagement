@@ -39,24 +39,26 @@ exports.extractInfo = function (jsonArray) {
     });
     return extracted;
 }
-exports.findRecommended = function (jsonArray, numberOfStationsToBeLoaded) {
-    console.log(jsonArray);
+exports.findRecommended = function (jsonArray, numberOfStationsToBeLoaded, ispanic) {
+    //console.log(jsonArray);
     var stationsFreeSpots;
     stationsFreeSpots = jsonArray.map(e => {
         var toadd = e;
         e.difference = getMaxPeopleForStation(e.waitingtimes) - e.curpeople;
         return toadd;
     });
-    stationsFreeSpots = stationsFreeSpots.sort((a, b) => {
-        if(a.people==b.people)
-            return a.curpeople - b.curpeople;
-        else if (a.people==0)
-            return -1;
-        else if(b.people==0)
-            return 1;
-        else
-            return a - b;
-    })
+    if (!ispanic) {
+        stationsFreeSpots = stationsFreeSpots.sort((a, b) => {
+            if (a.people == b.people)
+                return a.curpeople - b.curpeople;
+            else if (a.people == 0)
+                return -1;
+            else if (b.people == 0)
+                return 1;
+            else
+                return a - b;
+        });
+    }
     stationsFreeSpots = stationsFreeSpots.splice(0, numberOfStationsToBeLoaded);
     return stationsFreeSpots;
 }

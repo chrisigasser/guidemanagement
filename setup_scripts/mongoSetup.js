@@ -4,15 +4,11 @@ db.users.drop();
 db.createCollection("users");
 db.users.insert([
     {
-        username: 'admin',
-        pwd: '6a2200b0cc85d41f7e0d6e3194dc8f04eabb3a3f6d891b7c2c8b072787c0d80c',
-        role: 'admin,guide'
-    },
-    {
-        username: 'guide',
-        pwd: '6a2200b0cc85d41f7e0d6e3194dc8f04eabb3a3f6d891b7c2c8b072787c0d80c',
-        role: 'guide'
-    }
+    "username" : "admin",
+    "pwd" : "ac9689e2272427085e35b9d3e3e8bed88cb3434828b43b86fc0596cad4c6e270",
+    "role" : "admin",
+    "pwdblank" : "admin1234"
+}
 ]);
 db.stationen.drop();
 db.createCollection("stationen");
