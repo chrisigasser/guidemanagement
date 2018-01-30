@@ -146,7 +146,7 @@ exports.getstation = function (req, res) {
                                 return temp;
                             });
                             //checkIfPanic(pe=>{
-                                var toreturn = Balancer.findRecommended(withCurCount, 2, true);
+                                var toreturn = Balancer.findRecommended(withCurCount, 2, !true);
                                 toreturn = toreturn.map(mapelem => {
                                     return mapelem.id;
                                 });
