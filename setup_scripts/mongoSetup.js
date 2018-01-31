@@ -33,7 +33,7 @@ db.stationen.insert([
         x:300,
         y:480
     },{
-        "name" : "Projektorientierte Softwareentwicklung ",
+        "name" : "Projektorientierte Softwareentwicklung",
         "desc" : "Du arbeitest im Team an Projekten mit verschiedensten Systemen und Programmiersprachen.<br>Projektmanagement und Teamarbeit wird in der Informatik-Abteilung groß geschrieben. Du siehst unterschiedlichste Schülerprojekte des 4. und 5. Jahrganges.<br>Pong-Game <br>Alexa Project und smart Home<br>Stations- und Pausenmanagementsystem <br>Tutoring System<br>Peer Coaching<br>Facility Management Tool (Siegerprojekt bei Innovations-Wettbewerb)<br>und noch viele mehr …",
         "visited" : [],
         x:430,
