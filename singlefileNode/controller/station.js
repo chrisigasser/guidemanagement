@@ -6,7 +6,7 @@ var Balancer = require('../loadbalancer');
 
 exports.startStation = function (req, res) {
     try {
-        if (req.body != undefined) {
+        if (req.body != undefined && req.body.routenID!=undefined && req.body.routenID.length == 24) {
             var credentials = req.body.credentials;
             //console.log(req.body);
             MongoClient.connect(mongoUri, function (err, db) {
@@ -190,7 +190,9 @@ exports.getCountOfStations = function (req, res) {
                             allstationen = allstationen.filter(filelem => { return filelem.name != "next = generated"; });
                             var extracted = allstationen.map(e =>{
                                 var temp_return = {
-                                    name: e.name
+                                    name: e.name,
+                                    x: e.x,
+                                    y: e.y
                                 };
                                 temp_return.persons = e.visited.filter(f => {
                                     return f.end == -1;
@@ -228,7 +230,7 @@ exports.getstations = function (req, res) {
                                     if (!element.visited.some(
                                         function (e) {
                                             return (e.routenID == req.body.runningRoute && e.end != -1);
-                                        }
+                                        } 
                                     )) {
                                         allstationen.push(element);
                                     }

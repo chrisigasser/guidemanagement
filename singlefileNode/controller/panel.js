@@ -204,13 +204,13 @@ function createRandomUsers(toCallOnSuccess, toCallOnError, numberOfGuidesToBeGen
         for (i = 0; i < numberOfGuidesToBeGenerated; i++) {
             var pwd = randomstring.generate({
                 length: pwdLength,
-                charset: 'abcdefghijklmnpqrstuvwABCDEFGHILKLMNPQRSTUVW123456789'
+                charset: 'abcdefghkmnpqrstuvwABCDEFGHKMNPQRSTUVW23456789'
             });
             generatedUsers.push(
                 {
                     "username": randomstring.generate({
                         length: usernameLength,
-                        charset: 'abcdefghijklmnpqrstuvwABCDEFGHILKLMNPQRSTUVW123456789'
+                        charset: 'abcdefghkmnpqrstuvwABCDEFGHKMNPQRSTUVW23456789'
                     }),
                     "pwd": sha256(pwd),
                     "pwdblank": pwd,

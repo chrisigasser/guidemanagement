@@ -41,7 +41,7 @@ exports.newRoute = function (req, res) {
 
 exports.endRoute = function (req, res) {
     try {
-        if (req.body != undefined) {
+        if (req.body != undefined && req.body.id!=undefined && req.body.id.length == 24) {
             var credentials = req.body.credentials;
             //console.log(req.body);
             MongoClient.connect(mongoUri, function (err, db) {
@@ -49,6 +49,7 @@ exports.endRoute = function (req, res) {
                 db.collection("users").count({ username: credentials.username, pwd: credentials.pwd }, function (err, count) {
                     if (err) throw err;
                     if (count > 0) {
+                        console.log(req.body);
                         var myquery = { _id: ObjectID(req.body.id) };
                         //var newvalues = {$set: {end: req.body.endtime}};
                         var newvalues = { $set: { end: req.body.endtime } };
