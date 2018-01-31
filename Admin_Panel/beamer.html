@@ -18,16 +18,16 @@
 <script type="text/javascript" src="lib/loader.js"></script>
 	
 		<script>
-				var baseURL = "http://192.168.137.189:3000";
+				var baseURL = "http://192.169.2.253:3000";
 				var heatmapInstance;
 				var maxToSet = 15;
-				var data = [
-					{ x: 193, y: 111, value: 5, name: "Arduino"},
+				var data = [];
+				/*	{ x: 193, y: 111, value: 5, name: "Arduino"},
 					{ x: 650, y: 115, value: 10, name: "Diplomarbeiten"},
 					{ x: 777, y: 320, value: 0, name: "Sharepoint"},
 					{ x: 674, y: 480, value: 0, name: "App corner"},
 					{ x: 169, y: 480, value: 0, name: "Videowall"},
-				];
+				];*/
 
 
 
@@ -44,6 +44,8 @@
 				var AppCornerChart;
 				var VideowallData = [["", ""]];
 				var VideowallChart;
+				var startupData = [["", ""]];
+				var startupChart;
 
 
 				
@@ -53,30 +55,35 @@
 					legend: {position: 'none'}
 				};
 				var ArduinoOptions = {
-          title: 'Arduino',
+          title: 'Programmierwerkstatt',
 					curveType: 'line',
 					legend: {position: 'none'}
 				};
-				var DiplomarbeitOptions = {
-          title: 'Diplomarbeit',
-					curveType: 'line',
-					legend: {position: 'none'}
-				};
-				var SharepointOptions = {
-          title: 'Sharepoint',
-					curveType: 'line',
-					legend: {position: 'none'}
-				};
+												var DiplomarbeitOptions = {
+												title: '1. Jahrgang - Wie startet man erfolgreich',
+															curveType: 'line',
+															legend: {position: 'none'}
+														};
+														var SharepointOptions = {
+												title: 'Projektorientierte Softwareentwicklung',
+															curveType: 'line',
+															legend: {position: 'none'}
+														};
 				var AppCornerOptions = {
-          title: 'AppCorner',
+          title: 'Elektronik, Messtechnik & Mikrocontroller',
 					curveType: 'line',
 					legend: {position: 'none'}
 				};
 				var VideowallOptions = {
-          title: 'Videowall',
+          title: 'Praxisorientierter Wirtschaftsunterricht',
 					curveType: 'line',
 					legend: {position: 'none'}
-        };
+		};
+			var startupOptions = {
+			title: 'Startup',
+						curveType: 'line',
+						legend: {position: 'none'}
+			};
 				
 
 				function drawGuideChart() {
@@ -89,7 +96,7 @@
 		function drawCharts() {
 			
 
-        ArduinoChart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+        		ArduinoChart = new google.visualization.LineChart(document.getElementById('curve_chart'));
 				ArduinoChart.draw(google.visualization.arrayToDataTable(ArduinoFuhrData), ArduinoOptions);
 				
 				DiplomarbeitenChart = new google.visualization.LineChart(document.getElementById('curve_chart1'));
@@ -102,7 +109,10 @@
 				SharepointChart.draw(google.visualization.arrayToDataTable(SharepointData), SharepointOptions);
 				
 				AppCornerChart = new google.visualization.LineChart(document.getElementById('curve_chart4'));
-        AppCornerChart.draw(google.visualization.arrayToDataTable(AppCornerData), AppCornerOptions);
+				AppCornerChart.draw(google.visualization.arrayToDataTable(AppCornerData), AppCornerOptions);
+		
+				startupChart = new google.visualization.LineChart(document.getElementById('curve_chart5'));
+        		startupChart.draw(google.visualization.arrayToDataTable(startupData), startupOptions);
 			}
 
 
@@ -163,11 +173,10 @@ function start() {
         $http.post(baseURL + "/getCountOfStations", {})
         .then(
             function mySuccess(response) {
-                //console.log(response.data);
-                var data = response.data;
+				data = response.data;
                 data.forEach((e) => {
 										switch(e.name) {
-											case "Arduino":
+											case "Programmierwerkstatt":
 												if(ArduinoFuhrData.length > 100) {
 													var x = ArduinoFuhrData.reverse();
 													var toKeep = x.pop();
@@ -177,7 +186,7 @@ function start() {
 												}
 												ArduinoFuhrData.push(["", e.persons]);
 												break;
-											case "Sharepoint":
+											case "Projektorientierte Softwareentwicklung":
 												if(SharepointData.length > 100) {
 													var x = SharepointData.reverse();
 													var toKeep = x.pop();
@@ -187,7 +196,7 @@ function start() {
 												}
 												SharepointData.push(["", e.persons]);
 												break;
-												case "Diplomarbeiten":
+												case "1. Jahrgang – Wie startet man erfolgreich?":
 												if(DiplomarbeitenData.length > 100) {
 													var x = DiplomarbeitenData.reverse();
 													var toKeep = x.pop();
@@ -197,7 +206,7 @@ function start() {
 												}
 												DiplomarbeitenData.push(["", e.persons]);
 												break;
-											case "Videowall":
+											case "Praxisorientierter Wirtschaftsunterricht":
 												if(VideowallData.length > 100) {
 													var x = VideowallData.reverse();
 													var toKeep = x.pop();
@@ -207,7 +216,7 @@ function start() {
 												}
 												VideowallData.push(["", e.persons]);
 												break;
-											case "App corner":
+											case "Elektronik, Messtechnik & Mikrocontroller":
 												if(AppCornerData.length > 100) {
 													var x = AppCornerData.reverse();
 													var toKeep = x.pop();
@@ -216,6 +225,16 @@ function start() {
 													AppCornerData = x.reverse();
 												}
 												AppCornerData.push(["", e.persons]);
+												break;
+											case "Startup":
+												if(startupData.length > 100) {
+													var x = startupData.reverse();
+													var toKeep = x.pop();
+													x.pop();
+													x.push(toKeep);
+													startupData = x.reverse();
+												}
+												startupData.push(["", e.persons]);
 												break;
 										}
                     changeData(e.name, e.persons);
@@ -235,18 +254,17 @@ function start() {
 			$http.post(baseURL + "/currunningRoutes", {})
         .then(
             function mySuccess(response) {
-                console.log(response.data);
-								var data = response.data;
-								if(GuideData.length > 100) {
-									var x = GuideData.reverse();
-									var toKeep = x.pop();
-									x.pop();
-									x.push(toKeep);
-									GuideData = x.reverse();
-								}
-								GuideData.push(["", response.data.currentlyRunning]);
-								drawGuideChart();
-								setTimeout(getRoutesData, 400);
+				var data = response.data;
+				if(GuideData.length > 100) {
+					var x = GuideData.reverse();
+					var toKeep = x.pop();
+					x.pop();
+					x.push(toKeep);
+					GuideData = x.reverse();
+				}
+				GuideData.push(["", response.data.currentlyRunning]);
+				drawGuideChart();
+				setTimeout(getRoutesData, 400);
             },
             function myError(response) {
                 console.log("Error on contacting server!");

@@ -1,5 +1,6 @@
 ﻿var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
 var baseURL = "http://192.169.2.253:3000";
+//var baseURL = "http://192.168.137.192:3000";
 var nameOfStationWhichIsUsedForGenerateStation = "next = generated";
 
 var credentialObject = null;
@@ -102,6 +103,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	$scope.loggedIn = false;
 	$scope.generated = "loading";
 	$scope.nextStation_name = $scope.generated;
+	$scope.infoStations = [];
     
     var started = false;
     var stationStarted = false;
@@ -174,7 +176,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 			        checkForRunningStation();
 			    },
 			    function myError(response) {
-				    alert("Error retrieving Stations");
+				    alert("Error beim holen der Informationen");
 				    console.log(response);
 			    }
 		    );
@@ -194,6 +196,22 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 				$scope.nextStation_name = station.name;
 			}
 		}
+	}
+
+	$scope.loadInfoData = function() {
+		$scope.infoStations = [];
+		var credObject = cloneCredentialsObject();
+		$http.post(baseURL+"/getStations", credObject)
+		.then(
+			function mySuccess(response) {
+				var x = response.data.filter((ob) => {return ob.name != nameOfStationWhichIsUsedForGenerateStation});
+				$scope.infoStations = x;
+			},
+			function myError(response) {
+				alert("Error beim Anzeigen der Informationen");
+				console.log(response);
+			}
+		);
 	}
 	
 	$scope.update = function () {
@@ -223,11 +241,11 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 							$scope.btnStationStartStop = "Station beenden";
 						}
 						else {
-							alert("Server responded with " + response.data);
+							alert("Server error: " + response.data);
 						}
 					},
 					function myError(response) {
-						alert("Error starting at station");
+						alert("Error beim Starten der Station");
 						console.log(response);
 					}
 				);
@@ -253,11 +271,11 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
                         setAttributesOfStation();
                     }
                     else {
-                        alert("Server responded with" + response.data);
+                        alert("Server error: " + response.data);
                     }
                 },
                 function myError(response) {
-                    alert("Error ending station");
+                    alert("Error beim Beenden der Station");
                     console.log(response);
                 }
             );
@@ -288,7 +306,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 				.then(
 					function mySuccess(response) {
 						if(response.data == -1)
-							alert("Error occured! Please choose a station by hand!");
+							alert("Konnte die generierten Stationen nicht laden! Bitte per Hand auswaehlen!");
 						else {
 							$scope.generated = response.data;
 							if($scope.selectedStation.name == nameOfStationWhichIsUsedForGenerateStation) {
@@ -306,7 +324,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 						}
 					},
 					function myError(response) {
-						alert("Error getting generated Route");
+						alert("Konnte die generierten Stationen nicht laden!");
 						console.log(response);
 					}
 				);
@@ -316,10 +334,10 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 
 	$scope.logout = function() {
 		if(stationStarted) {
-			alert("Please finish station first!");
+			alert("Bitte zuerst die Station beenden");
 		}
 		else if(started) {
-			alert("Please finish route first");
+			alert("Bitte zuerst die Fuehrung beenden");
 		}
 		else {
 			$cookies.remove("cred");
@@ -342,7 +360,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 					loadNextGeneratedStation();
 			    },
 			    function myError(response) {
-			        alert("Error getting new Route");
+			        alert("Error beim Starten der neuen Fuehrung");
 			        console.log(response);
 			    }
 		    );
@@ -354,7 +372,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 	    }
 	    else {
 	        if (stationStarted) {
-	            alert("Please stop Station first!");
+	            alert("Bitte zuerst die Station beenden");
 	        }
 	        else {
 	            var sendObject = cloneCredentialsObject();
@@ -373,11 +391,11 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
                             $cookies.remove("runningRoute");
                         }
                         else {
-                            alert("Cannot finish route! Error!");
+                            alert("Fuehrung konnte nicht beendet werden! Error!");
                         }
                     },
                     function myError(response) {
-                        alert("Error finishing Route");
+                        alert("Error beim Beenden der Fuehrung");
                         console.log(response);
                     }
                 );

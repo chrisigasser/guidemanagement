@@ -77,9 +77,33 @@
     </div>
     <div class="container card">
         <div class="row">
-            <button class="nav-link small" ng-click="logout();">Log out</button>
+            <button class="btn btn-lg" ng-click="logout();">Log out</button>
+            <button type="button" class="btn btn-info btn-lg" ng-click="loadInfoData();" data-toggle="modal" data-target="#myModal">Show Infos</button>
         </div>
        
     </div>
+
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+      
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Guide info</h4>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              
+            </div>
+            <div class="modal-body" ng-repeat="x in infoStations">
+              <h3>{{x.name}}</h3>
+              <p ng-bind-html="x.desc"></p>
+            </div>
+            <img style="width: 100%" src="./lib/plan.jpg"/>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+      
+        </div>
+      </div>
 
 </div>
