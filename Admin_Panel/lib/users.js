@@ -65,7 +65,7 @@ app.controller('myCtrl', ['LoginCookieService',"$scope", "$http", "$timeout", "$
         $scope.allGuides = []
         console.log("Getting new ones");
         var newObject = cloneCredentialsObject();
-        newObject.count = 200;
+        newObject.count = 300;
         $http.post(baseURL + "/generateGuides", newObject)
         .then(
             function mySuccess(response) {
