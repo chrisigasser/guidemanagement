@@ -31,7 +31,7 @@ db.stationen.insert([
         "name" : "Praxisorientierter Wirtschaftsunterricht",
         "desc" : "Betriebswirtschaft und Management spielerisch erleben.<br>Die Schüler entwickelten Spiele, in denen sie sowohl ihre wirtschaftlichen Kompetenzen erweitern als auch ihre Programmierfähigkeiten anwenden konnten. Dies wurde durch einen fächerübergreifenden Wirtschafts- und Informatikunterricht ermöglicht. (jedem Besucher soll angeboten werden eines der Spiele zu testen).",
         "visited" : [],
-        x:324,
+        x:345,
         y:381
     },{
         "name" : "Übungsfirma 4.0",
