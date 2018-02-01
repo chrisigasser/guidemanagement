@@ -41,7 +41,7 @@ exports.newRoute = function (req, res) {
 
 exports.endRoute = function (req, res) {
     try {
-        if (req.body != undefined && req.body.id!=undefined && req.body.id.length == 24) {
+        if (req.body != undefined && req.body.id != undefined && req.body.id.length == 24) {
             var credentials = req.body.credentials;
             //console.log(req.body);
             MongoClient.connect(mongoUri, function (err, db) {
@@ -60,9 +60,13 @@ exports.endRoute = function (req, res) {
                         });
                         db.collection("routen").findOne(myquery, function (err, resultRouten) {
                             if (err) throw err;
-                            var difference = parseInt(req.body.endtime) - parseInt(resultRouten.start);
-                            //console.log(req.body.endtime + ':' + resultRouten.start);
-                            res.send(difference + "");
+                            if (!isNaN(req.body.endtime) && !isNaN(req.body.endtime)) {
+                                var difference = parseInt(req.body.endtime) - parseInt(resultRouten.start);
+                                res.send(difference + "");
+                            } else {
+                                //console.log(req.body.endtime + ':' + resultRouten.start);
+                                res.send("Error when calculating duration");
+                            }
                         });
                     } else {
                         throw err;
