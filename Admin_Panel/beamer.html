@@ -140,7 +140,7 @@
 			document.getElementById('chartDiv').style.visibility='visible';
 		}
 
-		setTimeout(change, 6000);
+		setTimeout(change, 20000);
 	}
 
 
@@ -241,11 +241,11 @@ function start() {
 								});
 								setData();
 								drawCharts();
-                setTimeout(getData, 400);
+                setTimeout(getData, 2000);
             },
             function myError(response) {
                 console.log("Error on contacting server!");
-                setTimeout(getData, 200);
+                setTimeout(getData, 1000);
             }
 				);
 		}
@@ -264,11 +264,11 @@ function start() {
 				}
 				GuideData.push(["", response.data.currentlyRunning]);
 				drawGuideChart();
-				setTimeout(getRoutesData, 400);
+				setTimeout(getRoutesData, 2000);
             },
             function myError(response) {
                 console.log("Error on contacting server!");
-                setTimeout(getData, 200);
+                setTimeout(getData, 1000);
             }
         );
 		}
