@@ -1,5 +1,5 @@
-﻿var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
-var baseURL = "http://192.168.137.189:3000";
+var app = angular.module('myApp', ['ngRoute', 'ngCookies']);
+var baseURL = "http://192.168.8.146:3000";
 var nameOfStationWhichIsUsedForGenerateStation = "next = generated";
 
 var credentialObject = null;
@@ -198,7 +198,7 @@ app.controller('overviewController', ['LoginCookieService',"$scope", "$http", "$
 
 	    if (!stationStarted) {
 	        if(stationName == undefined || stationName == "Keine Stationen mehr!") {
-				alert("Deine Führung ist bereits fertig!");
+				alert("Deine F�hrung ist bereits fertig!");
 			} 
 			else {
 				var sendObject = cloneCredentialsObject();

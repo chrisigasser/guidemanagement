@@ -1,4 +1,4 @@
-$Server = Read-Host -Prompt 'Bitte geben Sie die IP des Rechners ein'
+$Server = Read-Host -Prompt 'Bitte geben Sie die IP des Rechners ein (z.B.: 192.168.1.3)'
 
 
 $OldIP = Get-Content -Path .\old_ip.conf -TotalCount 1

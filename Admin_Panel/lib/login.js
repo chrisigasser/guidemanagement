@@ -1,4 +1,4 @@
-var baseURL = "http://192.168.137.189:3000";
+var baseURL = "http://192.168.8.146:3000";
 
 var credentialObject = undefined;
 var baseLocation = "/admin";
